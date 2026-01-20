@@ -1,0 +1,16 @@
+.lorem {
+  color: red;
+}
+.delete {
+  color: black;
+  background-color: beige;
+  font-weight: 800;
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 5px;
+  border-color: blue;
+}
+
+.containerdelete {
+  display: flex;
+  justify-content: center;
+}
