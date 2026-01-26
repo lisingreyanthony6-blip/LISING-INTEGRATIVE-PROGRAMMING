@@ -27,28 +27,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* Body with futuristic background */
-body {
-  color: #ffffff;
-  background-color: #050505;
-  background-image:
-    linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px),
-    radial-gradient(circle at top, rgba(0, 255, 255, 0.15), transparent 60%);
-  background-size:
-    40px 40px,
-    40px 40px,
-    100% 100%;
-}
-
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
 /* Body with animated futuristic background */
 body {
   color: #ffffff;
@@ -151,4 +129,37 @@ footer {
   text-align: center;
   background-color: #000;
   color: #777;
+}
+
+.form-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertical center */
+  align-items: center; /* horizontal center */
+  text-align: center;
+}
+
+.form-box {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 320px;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.form-box input {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.form-text {
+  margin-top: 15px;
+  font-size: 14px;
 }
