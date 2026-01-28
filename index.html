@@ -13,7 +13,9 @@
 
     <link rel="stylesheet" href="style.css" />
   </head>
+
   <body>
+    <!-- ===== NAVBAR ===== -->
     <header class="navbar">
       <div class="logo">
         <span class="subject">IPT 101</span>
@@ -22,26 +24,55 @@
       <a href="login.html" class="nav-btn">Login</a>
     </header>
 
+    <!-- ===== HERO SECTION ===== -->
     <section class="hero">
       <div class="hero-content">
-        <h1 class="glow">LISING<br />INTEGRATIVE PROGRAMMING</h1>
+        <h1 class="glow">
+          LISING<br />
+          <span class="highlight">INTEGRATIVE PROGRAMMING</span>
+        </h1>
+
         <p>
-          A futuristic landing page project built with modern HTML and CSS
-          principles.
+          A futuristic landing page project built using modern HTML and CSS
+          design principles.
         </p>
-        <a href="login.html" class="cta">Get Started</a>
+
+        <div class="hero-buttons">
+          <a href="login.html" class="cta">Get Started</a>
+          <a href="#overview" class="secondary-btn">Learn More</a>
+        </div>
       </div>
     </section>
 
-    <section class="content">
+    <!-- ===== CONTENT SECTION ===== -->
+    <section class="content" id="overview">
       <h2>Project Overview</h2>
+
       <p>
-        This project demonstrates clean structure, responsive layout, and
-        futuristic UI styling while maintaining professional web design
-        standards.
+        This project demonstrates clean structure, responsive layout, smooth
+        animations, and futuristic UI styling while maintaining professional web
+        design standards suitable for academic use.
       </p>
+
+      <div class="features">
+        <div class="feature-card">
+          <h3>Modern Design</h3>
+          <p>Uses glassmorphism, neon accents, and clean typography.</p>
+        </div>
+
+        <div class="feature-card">
+          <h3>Responsive Layout</h3>
+          <p>Optimized for desktop and mobile devices.</p>
+        </div>
+
+        <div class="feature-card">
+          <h3>CSS Animations</h3>
+          <p>Smooth slide-in and fade effects without JavaScript.</p>
+        </div>
+      </div>
     </section>
 
+    <!-- ===== FOOTER ===== -->
     <footer>
       <p>© 2026 Rey Anthony Lising | IPT 101</p>
     </footer>
