@@ -27,34 +27,39 @@
     </header>
 
     <!-- ===== PROFILE CONTENT ===== -->
-    <section class="content dashboard">
-      <h2>User Profile</h2>
+    <section class="content dashboard-layout">
+      <!-- ===== SIDEBAR ===== -->
+      <aside class="sidebar">
+        <a href="index.html">🏠 Home</a>
+        <a href="profile.html">👤 Profile</a>
+        <a href="settings.html">⚙ Settings</a>
+        <a href="login.html">🚪 Logout</a>
+      </aside>
 
-      <div class="profile-card">
-        <img
-          src="https://i.pravatar.cc/150?img=12"
-          alt="Profile Picture"
-          class="avatar"
-        />
+      <!-- ===== MAIN CONTENT ===== -->
+      <div class="dashboard-main">
+        <h2>User Profile</h2>
 
-        <h3>Rey Anthony Lising</h3>
-        <p>Email: lising.rey_anthony@hnu.edu.ph</p>
-        <p>Address: Duero, Bohol, Philippines</p>
+        <div class="profile-card">
+          <img
+            src="https://i.pravatar.cc/150?img=12"
+            alt="Profile Picture"
+            class="avatar"
+          />
+
+          <h3>Rey Anthony Lising</h3>
+          <p>Email: rey.lising@example.com</p>
+          <p>Address: Davao City, Philippines</p>
+        </div>
+
+        <div class="info-card">
+          <h3>About Me</h3>
+          <p>
+            I am a student learning integrative programming, focusing on modern
+            UI design, responsive layouts, and clean navigation structures.
+          </p>
+        </div>
       </div>
-
-      <div class="info-card">
-        <h3>About Me</h3>
-        <p>
-          A student exploring integrative programming with a focus on clean UI,
-          responsive layouts, and modern web design.
-        </p>
-      </div>
-
-      <a href="settings.html" class="cta">Go to Settings</a>
     </section>
-
-    <footer>
-      <p>© 2026 Rey Anthony Lising | IPT 101</p>
-    </footer>
   </body>
 </html>
