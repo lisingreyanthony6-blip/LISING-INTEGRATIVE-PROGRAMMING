@@ -466,3 +466,22 @@ footer {
     0 0 30px #00f7ff,
     0 0 60px #00ffe1;
 }
+.active {
+  background: #00eaff;
+  color: #000;
+}
+
+.highlight-btn {
+  border: 1px solid #00eaff;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+.error {
+  color: red;
+  font-size: 12px;
+  display: block;
+  margin-top: 4px;
+}
