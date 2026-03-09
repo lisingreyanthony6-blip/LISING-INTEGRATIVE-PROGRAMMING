@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Users | Admin</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <!-- ===== HEADER / NAVBAR ===== -->
+    <header class="navbar">
+        <div class="logo">
+            <span class="subject">IPT 101</span>
+            <span class="name">User Management</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html" class="nav-btn">Home</a>
+            <a href="profile.html" class="nav-btn">Profile</a>
+            <a href="settings.html" class="nav-btn">Settings</a>
+            <a href="admin.html" class="nav-btn">Admin</a>
+            <a href="manage-users.html" class="nav-btn active">Users</a>
+            <a href="#" onclick="logout()" class="nav-btn highlight-btn">Logout</a>
+        </div>
+    </header>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main>
+        <section class="hero small-hero">
+            <div class="hero-content">
+                <h1 class="glow">
+                    MANAGE <span class="highlight">USERS</span>
+                </h1>
+                <p class="hero-subtext">View, add, edit, and delete system users</p>
+            </div>
+        </section>
+
+        <section class="content">
+            <!-- Add User Form Section -->
+            <div class="form-container" style="margin-bottom: 40px;">
+                <h2 style="color: #00eaff; margin-bottom: 20px; text-align: center;">➕ ADD NEW USER</h2>
+                <form id="addUserForm" onsubmit="return addUser(event)">
+                    <div class="form-group">
+                        <label for="name" style="color: #00eaff; display: block; margin-bottom: 5px;">Full Name:</label>
+                        <input type="text" id="name" name="name" placeholder="Enter full name" required class="glass-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" style="color: #00eaff; display: block; margin-bottom: 5px;">Email Address:</label>
+                        <input type="email" id="email" name="email" placeholder="Enter email address" required class="glass-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="role" style="color: #00eaff; display: block; margin-bottom: 5px;">Role:</label>
+                        <select id="role" name="role" required class="glass-input">
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" style="color: #00eaff; display: block; margin-bottom: 5px;">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Enter password (min. 6 characters)" required class="glass-input">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="cta">Add User</button>
+                        <button type="button" class="secondary-btn" onclick="clearAddUserForm()">Clear Form</button>
+                    </div>
+                </form>
+                
+                <!-- Live Preview -->
+                <div class="preview-section" style="margin-top: 20px; padding: 15px;">
+                    <h3 style="color: #00eaff; margin-bottom: 10px;">👁️ Live Preview</h3>
+                    <div class="preview-content">
+                        <p><span>Name:</span> <span id="previewName">—</span></p>
+                        <p><span>Email:</span> <span id="previewEmail">—</span></p>
+                        <p><span>Role:</span> <span id="previewRole">—</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Table Section -->
+            <div class="table-container">
+                <h2 style="color: #00eaff; margin-bottom: 20px;">📋 EXISTING USERS</h2>
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        <!-- Users will be loaded here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2 style="color: #00eaff; margin-bottom: 20px; text-align: center;">✎ Edit User</h2>
+            <form onsubmit="event.preventDefault(); updateUser();">
+                <input type="hidden" id="editUserId">
+                
+                <div class="form-group">
+                    <label for="editName" style="color: #00eaff; display: block; margin-bottom: 5px;">Name:</label>
+                    <input type="text" id="editName" required class="glass-input" style="margin-bottom: 15px;">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editEmail" style="color: #00eaff; display: block; margin-bottom: 5px;">Email:</label>
+                    <input type="email" id="editEmail" required class="glass-input" style="margin-bottom: 15px;">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editRole" style="color: #00eaff; display: block; margin-bottom: 5px;">Role:</label>
+                    <select id="editRole" required class="glass-input" style="margin-bottom: 20px;">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="cta">Update User</button>
+                    <button type="button" class="secondary-btn" onclick="closeEditModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2026 Rey Anthony Lising | User Management</p>
+    </footer>
+
+    <script>
+        // Clear add user form
+        function clearAddUserForm() {
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('role').value = 'user';
+            document.getElementById('password').value = '';
+            updatePreview();
+        }
+
+        // Live preview functionality
+        function updatePreview() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const roleSelect = document.getElementById('role');
+            const role = roleSelect.options[roleSelect.selectedIndex].text;
+            
+            document.getElementById('previewName').textContent = name || '—';
+            document.getElementById('previewEmail').textContent = email || '—';
+            document.getElementById('previewRole').textContent = role || '—';
+        }
+
+        // Add event listeners for live preview
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const roleSelect = document.getElementById('role');
+            
+            if (nameInput) nameInput.addEventListener('input', updatePreview);
+            if (emailInput) emailInput.addEventListener('input', updatePreview);
+            if (roleSelect) roleSelect.addEventListener('change', updatePreview);
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

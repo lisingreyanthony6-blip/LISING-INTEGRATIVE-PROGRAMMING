@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | LISING</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <!-- ===== ADMIN ACCESS RULE ===== -->
+    <script>
+        // Check if user is logged in and has admin role
+        (function() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            
+            // If not logged in at all
+            if (!user) {
+                alert('🔒 Please login first to access admin dashboard.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // If logged in but not admin
+            if (user.role !== 'admin') {
+                alert('🔒 Access denied. Admin privileges required.');
+                window.location.href = 'profile.html';
+                return;
+            }
+            
+            // If admin, display their name
+            const userNameElement = document.getElementById('userName');
+            if (userNameElement) {
+                userNameElement.textContent = user.name;
+            }
+        })();
+    </script>
+
+    <!-- ===== HEADER / NAVBAR ===== -->
+    <header class="navbar">
+        <div class="logo">
+            <span class="subject">IPT 101</span>
+            <span class="name">Admin Panel</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html" class="nav-btn">Home</a>
+            <a href="profile.html" class="nav-btn">Profile</a>
+            <a href="settings.html" class="nav-btn">Settings</a>
+            <a href="admin.html" class="nav-btn active">Admin</a>
+            <a href="#" onclick="logout()" class="nav-btn highlight-btn">Logout</a>
+        </div>
+    </header>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main>
+        <!-- HERO -->
+        <section class="hero admin-hero">
+            <div class="hero-content">
+                <h1 class="glow">
+                    ADMIN <span class="highlight">DASHBOARD</span>
+                </h1>
+                <p class="hero-subtext">Welcome back, <span id="userName">Admin</span>! Use the menu to manage system data.</p>
+            </div>
+        </section>
+
+        <!-- STATS SECTION -->
+        <section class="content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>👥 TOTAL USERS</h3>
+                    <p class="stat-number" id="userCount">3</p>
+                </div>
+                <div class="stat-card">
+                    <h3>⚡ ACTIVE SESSIONS</h3>
+                    <p class="stat-number">1</p>
+                </div>
+                <div class="stat-card">
+                    <h3>🔮 SYSTEM STATUS</h3>
+                    <p class="stat-number success">ONLINE</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ADMIN MENU -->
+        <section class="content dashboard">
+            <h2 class="section-title">📋 MANAGEMENT TOOLS</h2>
+            
+            <div class="admin-menu-grid">
+                <div class="feature-card admin-card">
+                    <h3>👥 Manage Users</h3>
+                    <p>View, edit, delete, and add new users all in one place</p>
+                    <a href="manage-users.html" class="cta">Manage Users →</a>
+                </div>
+
+                <div class="feature-card admin-card">
+                    <h3>⚙️ Settings</h3>
+                    <p>Configure system preferences</p>
+                    <a href="settings.html" class="cta">Settings →</a>
+                </div>
+
+                <div class="feature-card admin-card">
+                    <h3>📊 Reports</h3>
+                    <p>View system reports and analytics</p>
+                    <a href="#" class="cta" onclick="alert('📈 Reports coming soon!')">View Reports →</a>
+                </div>
+                
+                <div class="feature-card admin-card">
+                    <h3>👤 Profile</h3>
+                    <p>View your admin profile information</p>
+                    <a href="profile.html" class="cta">Profile →</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- QUICK ACTIONS -->
+        <section class="content">
+            <h2 class="section-title">⚡ QUICK ACTIONS</h2>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="manage-users.html" style="text-decoration: none;">
+                    <div class="feature-card" style="width: 200px;">
+                        <h3>➕ Quick Add</h3>
+                        <p>Add a new user instantly</p>
+                    </div>
+                </a>
+                <a href="profile.html" style="text-decoration: none;">
+                    <div class="feature-card" style="width: 200px;">
+                        <h3>👤 My Profile</h3>
+                        <p>View your account</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2026 Rey Anthony Lising | Admin Dashboard</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
