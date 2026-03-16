@@ -574,3 +574,207 @@ window.updateUser = updateUser;
 window.closeEditModal = closeEditModal;
 window.logout = logout;
 window.updatePreview = updatePreview;
+
+// API endpoint
+const API_BASE_URL = 'https://restcountries.com/v3.1';
+
+// DOM elements
+const countryInput = document.getElementById('countryInput');
+const searchBtn = document.getElementById('searchBtn');
+const resultContainer = document.getElementById('result');
+const errorContainer = document.getElementById('error');
+const exampleButtons = document.querySelectorAll('.example-country');
+
+// Event listeners
+searchBtn.addEventListener('click', searchCountry);
+countryInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        searchCountry();
+    }
+});
+
+// Add event listeners to example buttons
+exampleButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const country = button.dataset.country;
+        countryInput.value = country;
+        searchCountry();
+    });
+});
+
+// Main search function
+async function searchCountry() {
+    const countryName = countryInput.value.trim();
+    
+    // Validate input
+    if (!countryName) {
+        showError('Please enter a country name');
+        return;
+    }
+    
+    // Show loading state
+    setLoadingState(true);
+    
+    // Clear previous results
+    clearResults();
+    
+    try {
+        // Fetch data from API
+        const response = await fetch(`${API_BASE_URL}/name/${encodeURIComponent(countryName)}?fullText=true`);
+        
+        // Check if response is ok
+        if (!response.ok) {
+            if (response.status === 404) {
+                throw new Error('Country not found. Please check the spelling and try again.');
+            } else {
+                throw new Error('Failed to fetch country data. Please try again later.');
+            }
+        }
+        
+        // Parse JSON response
+        const data = await response.json();
+        
+        // Check if data exists
+        if (!data || data.length === 0) {
+            throw new Error('No information found for this country.');
+        }
+        
+        // Display the country data
+        displayCountryData(data[0]);
+        
+    } catch (error) {
+        // Handle errors
+        showError(error.message);
+    } finally {
+        // Hide loading state
+        setLoadingState(false);
+    }
+}
+
+// Display country data in the UI
+function displayCountryData(country) {
+    // Create country card HTML
+    const countryHTML = `
+        <div class="country-card">
+            <div class="country-flag">
+                <img src="${country.flags.png}" alt="Flag of ${country.name.common}">
+            </div>
+            <div class="country-info">
+                <h2>${country.name.common}</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h4>Official Name</h4>
+                        <p>${country.name.official}</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Capital</h4>
+                        <p>${country.capital ? country.capital[0] : 'N/A'}</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Population</h4>
+                        <p>${country.population.toLocaleString()}</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Region</h4>
+                        <p>${country.region}</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Subregion</h4>
+                        <p>${country.subregion || 'N/A'}</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Area</h4>
+                        <p>${country.area.toLocaleString()} km²</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Currency</h4>
+                        <p>${getCurrency(country.currencies)}</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Languages</h4>
+                        <p>${getLanguages(country.languages)}</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Time Zone</h4>
+                        <p>${country.timezones[0]}</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Continent</h4>
+                        <p>${country.continents[0]}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Update result container
+    resultContainer.innerHTML = countryHTML;
+    resultContainer.classList.add('active');
+}
+
+// Helper function to get currency information
+function getCurrency(currencies) {
+    if (!currencies) return 'N/A';
+    const currencyCode = Object.keys(currencies)[0];
+    if (!currencyCode) return 'N/A';
+    const currency = currencies[currencyCode];
+    return `${currency.name} (${currency.symbol})`;
+}
+
+// Helper function to get languages
+function getLanguages(languages) {
+    if (!languages) return 'N/A';
+    return Object.values(languages).join(', ');
+}
+
+// Show error message
+function showError(message) {
+    errorContainer.innerHTML = `
+        <strong>Error:</strong> ${message}
+    `;
+    errorContainer.classList.add('active');
+    
+    // Hide result container
+    resultContainer.classList.remove('active');
+}
+
+// Clear previous results
+function clearResults() {
+    resultContainer.innerHTML = '';
+    errorContainer.innerHTML = '';
+    errorContainer.classList.remove('active');
+}
+
+// Set loading state
+function setLoadingState(isLoading) {
+    searchBtn.disabled = isLoading;
+    searchBtn.textContent = isLoading ? 'Searching...' : 'Search';
+    
+    if (isLoading) {
+        // Show loading spinner
+        const loader = document.createElement('div');
+        loader.className = 'loader active';
+        loader.id = 'loader';
+        loader.innerHTML = `
+            <div class="loader-spinner"></div>
+            <p>Searching for country...</p>
+        `;
+        resultContainer.parentNode.insertBefore(loader, resultContainer);
+    } else {
+        // Remove loading spinner
+        const loader = document.getElementById('loader');
+        if (loader) {
+            loader.remove();
+        }
+    }
+}
+
+// Initialize the app
+function init() {
+    // Load a default country on page load
+    countryInput.value = 'Philippines';
+    searchCountry();
+}
+
+// Call init when page loads
+document.addEventListener('DOMContentLoaded', init);
