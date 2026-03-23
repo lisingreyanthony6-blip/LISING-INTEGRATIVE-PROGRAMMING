@@ -1242,3 +1242,890 @@ header p {
         opacity: 1;
     }
 }
+/* ============================================
+   TRAVEL THEME STYLES FOR LANDING PAGE
+   ============================================ */
+
+/* Travel Hero */
+.travel-hero {
+  background: radial-gradient(circle at 30% 50%, #0f2027, #000);
+  position: relative;
+  overflow: hidden;
+}
+
+.travel-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&h=1080&fit=crop') center/cover;
+  opacity: 0.15;
+  z-index: 0;
+}
+
+.travel-hero .hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Destinations Grid */
+.destinations-preview {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.destinations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin: 40px 0;
+}
+
+.destination-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 234, 255, 0.2);
+}
+
+.destination-card:hover {
+  transform: translateY(-10px);
+  border-color: #00eaff;
+  box-shadow: 0 20px 40px rgba(0, 234, 255, 0.3);
+}
+
+.destination-image {
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s ease;
+}
+
+.destination-card:hover .destination-image {
+  transform: scale(1.05);
+}
+
+.destination-info {
+  padding: 20px;
+}
+
+.destination-info h3 {
+  color: #00eaff;
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
+
+.destination-info p {
+  color: #ccc;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.destination-rating {
+  color: #ffd700;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.view-all {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Travel Tips Section */
+.travel-tips {
+  background: radial-gradient(circle at bottom, #0a0f1a, #000);
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.tip-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  padding: 30px 20px;
+  border-radius: 16px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tip-card:hover {
+  transform: translateY(-5px);
+  border-color: #00eaff;
+  background: rgba(0, 234, 255, 0.1);
+}
+
+.tip-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.tip-card h3 {
+  color: #00eaff;
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+}
+
+.tip-card p {
+  color: #ccc;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* CTA Section */
+.cta-section {
+  padding: 60px 20px;
+}
+
+.cta-box {
+  background: linear-gradient(135deg, rgba(0, 234, 255, 0.1), rgba(0, 119, 255, 0.1));
+  border-radius: 30px;
+  padding: 50px;
+  text-align: center;
+  border: 1px solid rgba(0, 234, 255, 0.3);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cta-box h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #00eaff;
+}
+
+.cta-box p {
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+  color: #ddd;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-buttons .cta,
+.cta-buttons .secondary-btn {
+  min-width: 150px;
+  text-align: center;
+}
+
+/* Feature Cards Enhancement */
+.feature-card h3:first-of-type {
+  font-size: 2.5rem;
+  margin-bottom: 5px;
+}
+
+.feature-card h3:last-of-type {
+  color: #00eaff;
+  margin-bottom: 10px;
+}
+
+/* ============================================
+   ATTRACTIONS STYLES FOR API PAGE
+   ============================================ */
+
+/* Attractions Section */
+.attractions-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid rgba(0, 234, 255, 0.3);
+}
+
+.attractions-section h3 {
+    color: #00eaff;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.attractions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.attraction-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    padding: 15px;
+    border-radius: 12px;
+    border-left: 3px solid #00eaff;
+    transition: all 0.3s ease;
+}
+
+.attraction-card:hover {
+    transform: translateX(5px);
+    background: rgba(0, 234, 255, 0.1);
+}
+
+.attraction-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.attraction-desc {
+    font-size: 0.85rem;
+    color: #ccc;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.attraction-rating {
+    font-size: 0.9rem;
+    color: #ffd700;
+    font-weight: 500;
+}
+
+/* Cuisine Section */
+.cuisine-section {
+    margin: 25px 0;
+}
+
+.cuisine-section h3 {
+    color: #00eaff;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.cuisine-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.cuisine-tag {
+    background: rgba(255, 215, 0, 0.2);
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    color: #ffd700;
+    border: 1px solid #ffd700;
+    transition: all 0.3s ease;
+}
+
+.cuisine-tag:hover {
+    background: #ffd700;
+    color: #000;
+    transform: translateY(-2px);
+}
+
+/* Travel Tip */
+.travel-tip {
+    background: rgba(0, 234, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    border: 1px solid rgba(0, 234, 255, 0.3);
+}
+
+.travel-tip h4 {
+    color: #00eaff;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.travel-tip p {
+    color: #fff;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.country-motto {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .destinations-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tips-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta-box {
+        padding: 30px 20px;
+    }
+    
+    .cta-box h2 {
+        font-size: 1.5rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-buttons .cta,
+    .cta-buttons .secondary-btn {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .destination-card {
+        max-width: 100%;
+    }
+    
+    .attractions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cuisine-tags {
+        justify-content: center;
+    }
+    
+    .attraction-card:hover {
+        transform: translateX(0);
+    }
+}
+/* ============================================
+   ATTRACTION CARDS WITH IMAGES
+   ============================================ */
+
+.attraction-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 234, 255, 0.2);
+}
+
+.attraction-card:hover {
+    transform: translateY(-5px);
+    border-color: #00eaff;
+    box-shadow: 0 10px 25px rgba(0, 234, 255, 0.3);
+}
+
+.attraction-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.attraction-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.attraction-card:hover .attraction-image img {
+    transform: scale(1.1);
+}
+
+.attraction-content {
+    padding: 15px;
+}
+
+.attraction-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #00eaff;
+    margin-bottom: 8px;
+}
+
+.attraction-desc {
+    font-size: 0.85rem;
+    color: #ccc;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.attraction-rating {
+    font-size: 0.9rem;
+    color: #ffd700;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .attraction-image {
+        height: 160px;
+    }
+    
+    .attraction-name {
+        font-size: 1rem;
+    }
+    
+    .attraction-desc {
+        font-size: 0.8rem;
+    }
+}
+
+/* API Hero Section */
+.api-hero {
+    background: radial-gradient(circle at 30% 50%, #0f2027, #000);
+    min-height: 50vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.api-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&h=1080&fit=crop') center/cover;
+    opacity: 0.2;
+    z-index: 0;
+}
+
+.api-hero .hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Search Section Enhancement */
+.search-section {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(0, 234, 255, 0.2);
+}
+
+.search-section label {
+    color: #00eaff;
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: block;
+    font-size: 1.1rem;
+}
+
+.search-box {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+#countryInput {
+    flex: 1;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 234, 255, 0.3);
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    font-family: "Poppins", sans-serif;
+    transition: all 0.3s ease;
+}
+
+#countryInput:focus {
+    outline: none;
+    border-color: #00eaff;
+    box-shadow: 0 0 20px rgba(0, 234, 255, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+#countryInput::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#searchBtn {
+    padding: 15px 35px;
+    background: linear-gradient(135deg, #00eaff, #0077ff);
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+#searchBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 234, 255, 0.4);
+}
+
+#searchBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.hint {
+    color: #888;
+    font-size: 0.85rem;
+    margin-top: 10px;
+}
+
+/* Examples Section */
+.examples-section {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid rgba(0, 234, 255, 0.2);
+}
+
+.examples-section h3 {
+    color: #00eaff;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+.example-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.example-country {
+    padding: 10px 20px;
+    background: rgba(0, 234, 255, 0.1);
+    border: 1px solid rgba(0, 234, 255, 0.3);
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Poppins", sans-serif;
+    font-size: 0.9rem;
+}
+
+.example-country:hover {
+    background: #00eaff;
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 234, 255, 0.3);
+}
+
+/* Result Container */
+.result-container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    display: none;
+    border: 1px solid rgba(0, 234, 255, 0.2);
+}
+
+.result-container.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Error Container */
+.error-container {
+    background: rgba(220, 53, 69, 0.2);
+    border: 1px solid #dc3545;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    display: none;
+    color: #ff6b6b;
+}
+
+.error-container.active {
+    display: block;
+    animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-box {
+        flex-direction: column;
+    }
+    
+    #searchBtn {
+        width: 100%;
+    }
+    
+    .example-buttons {
+        flex-direction: column;
+    }
+    
+    .example-country {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .api-hero {
+        min-height: 40vh;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+}
+/* Clickable Attraction Card */
+.attraction-card.clickable {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.attraction-card.clickable:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 234, 255, 0.4);
+    border-color: #00eaff;
+}
+
+.attraction-click-hint {
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: #00eaff;
+    text-align: center;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.attraction-card.clickable:hover .attraction-click-hint {
+    opacity: 1;
+}
+
+.click-hint {
+    font-size: 0.8rem;
+    color: #888;
+    font-weight: normal;
+    margin-left: 10px;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.3s ease;
+}
+
+.attraction-modal-content {
+    position: relative;
+    margin: 5% auto;
+    padding: 0;
+    width: 90%;
+    max-width: 800px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: linear-gradient(135deg, rgba(15, 32, 39, 0.98), rgba(0, 0, 0, 0.98));
+    border-radius: 20px;
+    border: 1px solid rgba(0, 234, 255, 0.5);
+    box-shadow: 0 0 50px rgba(0, 234, 255, 0.3);
+    animation: modalSlideIn 0.4s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px) scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.close-modal {
+    position: sticky;
+    top: 15px;
+    right: 25px;
+    float: right;
+    font-size: 35px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.5);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 15px;
+}
+
+.close-modal:hover {
+    color: #00eaff;
+    transform: rotate(90deg);
+    background: rgba(0, 234, 255, 0.2);
+}
+
+.attraction-modal-header {
+    padding: 30px 30px 20px;
+    border-bottom: 2px solid rgba(0, 234, 255, 0.3);
+}
+
+.attraction-modal-header h2 {
+    color: #00eaff;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.attraction-location {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.attraction-modal-body {
+    padding: 25px 30px;
+}
+
+.attraction-detail-section {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.attraction-detail-section:last-child {
+    border-bottom: none;
+}
+
+.attraction-detail-section h3 {
+    color: #00eaff;
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+}
+
+.attraction-detail-section p {
+    color: #ddd;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.activities-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.activities-list li {
+    color: #ddd;
+    padding: 8px 12px;
+    background: rgba(0, 234, 255, 0.1);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.activities-list li::before {
+    content: "🎯";
+    font-size: 0.9rem;
+}
+
+.website-link {
+    display: inline-block;
+    color: #00eaff;
+    text-decoration: none;
+    padding: 10px 20px;
+    background: rgba(0, 234, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.website-link:hover {
+    background: #00eaff;
+    color: #000;
+    transform: translateX(5px);
+}
+
+.attraction-modal-footer {
+    padding: 20px 30px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.attraction-modal-footer .cta {
+    display: inline-block;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #00eaff, #0077ff);
+    color: #000;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.attraction-modal-footer .cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 234, 255, 0.4);
+}
+
+/* Scrollbar styling */
+.attraction-modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.attraction-modal-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.attraction-modal-content::-webkit-scrollbar-thumb {
+    background: #00eaff;
+    border-radius: 10px;
+}
+
+.attraction-modal-content::-webkit-scrollbar-thumb:hover {
+    background: #0077ff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .attraction-modal-content {
+        width: 95%;
+        margin: 10% auto;
+        max-height: 90vh;
+    }
+    
+    .attraction-modal-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .attraction-detail-section h3 {
+        font-size: 1rem;
+    }
+    
+    .activities-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .attraction-modal-header {
+        padding: 20px;
+    }
+    
+    .attraction-modal-body {
+        padding: 15px 20px;
+    }
+}

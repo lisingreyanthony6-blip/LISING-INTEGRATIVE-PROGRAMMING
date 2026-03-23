@@ -13,7 +13,6 @@ let users = [
 // AUTHENTICATION FUNCTIONS
 // ============================================
 
-// Login function
 function handleLogin(email, password) {
     const user = users.find(u => u.email === email && u.password === password);
     
@@ -26,7 +25,6 @@ function handleLogin(email, password) {
         };
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         
-        // Redirect based on role
         if (user.role === "admin") {
             window.location.href = "admin.html";
         } else {
@@ -37,7 +35,6 @@ function handleLogin(email, password) {
     return false;
 }
 
-// Check if user is logged in and is admin
 function checkAdminAccess() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if (!user) {
@@ -52,7 +49,6 @@ function checkAdminAccess() {
     return true;
 }
 
-// Check if user is logged in
 function checkAuth() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if (!user) {
@@ -62,13 +58,11 @@ function checkAuth() {
     return true;
 }
 
-// Logout function
 function logout() {
     localStorage.removeItem('currentUser');
     window.location.href = "index.html";
 }
 
-// Get current user
 function getCurrentUser() {
     return JSON.parse(localStorage.getItem('currentUser'));
 }
@@ -77,7 +71,6 @@ function getCurrentUser() {
 // USER MANAGEMENT FUNCTIONS (ADMIN)
 // ============================================
 
-// Load users in manage-users.html
 function loadUsers() {
     if (document.getElementById('userTableBody')) {
         const tbody = document.getElementById('userTableBody');
@@ -110,15 +103,12 @@ function loadUsers() {
     }
 }
 
-// Delete user
 function deleteUser(id) {
-    // Prevent deleting the main admin
     if (id === 3) {
         alert("⚠️ Cannot delete the main admin user!");
         return;
     }
     
-    // Don't allow deleting yourself
     const currentUser = getCurrentUser();
     if (currentUser && currentUser.id === id) {
         alert("⚠️ You cannot delete your own account!");
@@ -133,7 +123,6 @@ function deleteUser(id) {
     }
 }
 
-// Edit user
 function editUser(id) {
     const user = users.find(u => u.id === id);
     if (user) {
@@ -145,19 +134,16 @@ function editUser(id) {
     }
 }
 
-// Add new user
 function addUser(event) {
     if (event) {
         event.preventDefault();
     }
     
-    // Get form elements
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('email');
     const roleSelect = document.getElementById('role');
     const passwordInput = document.getElementById('password');
     
-    // Check if elements exist (for manage-users.html)
     if (!nameInput || !emailInput || !roleSelect || !passwordInput) {
         console.log('Add user form not found on this page');
         return false;
@@ -168,7 +154,6 @@ function addUser(event) {
     const role = roleSelect.value;
     const password = passwordInput.value;
     
-    // Validation
     if (!name || !email || !role || !password) {
         alert('❌ Please fill in all fields');
         return false;
@@ -190,13 +175,11 @@ function addUser(event) {
         return false;
     }
     
-    // Check if email already exists (case insensitive)
     if (users.some(user => user.email.toLowerCase() === email.toLowerCase())) {
         alert('❌ Email already exists!');
         return false;
     }
     
-    // Generate new ID
     const newId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
     
     const newUser = {
@@ -207,38 +190,30 @@ function addUser(event) {
         password: password
     };
     
-    // Add to users array
     users.push(newUser);
     
-    // Clear form
     nameInput.value = '';
     emailInput.value = '';
     roleSelect.value = 'user';
     passwordInput.value = '';
     
-    // Update preview
     if (typeof updatePreview === 'function') {
         updatePreview();
     }
     
-    // Reload the users table
     loadUsers();
-    
-    // Update user count
     updateUserCount();
     
     alert('✅ User added successfully!');
     return false;
 }
 
-// Update user
 function updateUser() {
     const id = parseInt(document.getElementById('editUserId').value);
     const name = document.getElementById('editName').value.trim();
     const email = document.getElementById('editEmail').value.trim();
     const role = document.getElementById('editRole').value;
     
-    // Validation
     if (!name || !email) {
         alert('❌ Please fill in all fields');
         return;
@@ -250,7 +225,6 @@ function updateUser() {
         return;
     }
     
-    // Check if email already exists (excluding current user)
     const emailExists = users.some(u => u.id !== id && u.email.toLowerCase() === email.toLowerCase());
     if (emailExists) {
         alert('❌ Email already exists!');
@@ -267,7 +241,6 @@ function updateUser() {
     }
 }
 
-// Close edit modal
 function closeEditModal() {
     const modal = document.getElementById('editModal');
     if (modal) {
@@ -275,7 +248,6 @@ function closeEditModal() {
     }
 }
 
-// Update user count on dashboard
 function updateUserCount() {
     const userCountElements = document.querySelectorAll('#userCount');
     userCountElements.forEach(el => {
@@ -283,7 +255,6 @@ function updateUserCount() {
     });
 }
 
-// Update preview in add user form
 function updatePreview() {
     const previewName = document.getElementById('previewName');
     const previewEmail = document.getElementById('previewEmail');
@@ -309,434 +280,401 @@ function updatePreview() {
 // VALIDATION FUNCTIONS
 // ============================================
 
-// Validate login form
 function validateLoginForm(email, password) {
     let errors = [];
-    
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         errors.push("Please enter a valid email address");
     }
-    
-    // Password validation
     if (password.length < 6) {
         errors.push("Password must be at least 6 characters");
     }
-    
     return errors;
 }
 
-// Validate signup form
 function validateSignupForm(name, email, password, confirmPassword) {
     let errors = [];
-    
-    // Name validation
     if (name.length < 3) {
         errors.push("Full name must be at least 3 characters");
     }
-    
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         errors.push("Please enter a valid email address");
     }
-    
-    // Password validation
     if (password.length < 6) {
         errors.push("Password must be at least 6 characters");
     }
-    
-    // Confirm password
     if (password !== confirmPassword) {
         errors.push("Passwords do not match");
     }
-    
     return errors;
 }
 
 // ============================================
-// PAGE INITIALIZATION
+// OPENTRIPMAP API INTEGRATION
 // ============================================
 
-// Initialize page based on current file
-document.addEventListener('DOMContentLoaded', function() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    
-    // Update navigation active state and visibility
-    updateNavigation();
-    
-    // Check authentication for protected pages
-    if (currentPage.includes('admin.html') || currentPage.includes('manage-users.html')) {
-        checkAdminAccess();
-    } else if (currentPage.includes('profile.html') || currentPage.includes('settings.html')) {
-        checkAuth();
-    }
-    
-    // Load users if on manage-users page
-    if (currentPage.includes('manage-users.html')) {
-        loadUsers();
-        
-        // Setup preview listeners for manage-users.html
-        const nameInput = document.getElementById('name');
-        const emailInput = document.getElementById('email');
-        const roleSelect = document.getElementById('role');
-        
-        if (nameInput) nameInput.addEventListener('input', updatePreview);
-        if (emailInput) emailInput.addEventListener('input', updatePreview);
-        if (roleSelect) roleSelect.addEventListener('change', updatePreview);
-        
-        // Setup form submission
-        const addUserForm = document.getElementById('addUserForm');
-        if (addUserForm) {
-            addUserForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                addUser(e);
-            });
-        }
-    }
-    
-    // Display user info on profile/settings pages
-    displayUserInfo();
-    
-    // Update user count on admin dashboard
-    updateUserCount();
-    
-    // Setup login form if on login page
-    if (currentPage.includes('login.html')) {
-        setupLoginForm();
-    }
-    
-    // Setup signup form if on signup page
-    if (currentPage.includes('signup.html')) {
-        setupSignupForm();
-    }
-    
-    // Initialize World Explorer on api.html
-    if (currentPage === 'api.html') {
-        initWorldExplorer();
-    }
-    
-    // Initialize Saved Items page if on saved-items.html
-    if (currentPage.includes('saved-items.html')) {
-        displaySavedItems();
-        
-        const clearAllBtn = document.getElementById('clearAllBtn');
-        if (clearAllBtn) {
-            clearAllBtn.addEventListener('click', clearAllSaved);
-        }
-    }
-});
+// OpenTripMap API Key (Free - get your own at https://opentripmap.io/product)
+const OPENTRIPMAP_API_KEY = '5ae2e3f221c38a28845f05b6c3bb6d2a93c07690bfc522c8f248363f';
+const OPENTRIPMAP_BASE = 'https://api.opentripmap.com/0.1/en/places';
 
-// Update navigation based on login state
-function updateNavigation() {
-    const user = getCurrentUser();
-    const currentPage = window.location.pathname.split('/').pop();
-    
-    // Update navbar for profile page
-    if (currentPage === 'profile.html') {
-        const navbar = document.querySelector('.navbar div:last-child');
-        if (navbar) {
-            navbar.innerHTML = `
-                <a href="index.html" class="nav-btn">Home</a>
-                <a href="settings.html" class="nav-btn">Settings</a>
-                <a href="#" onclick="logout()" class="nav-btn">Logout</a>
-            `;
-        }
-        
-        // Update sidebar
-        const sidebar = document.querySelector('.sidebar');
-        if (sidebar) {
-            let sidebarLinks = `
-                <a href="index.html">🏠 Home</a>
-                <a href="profile.html" class="active">👤 Profile</a>
-                <a href="settings.html">⚙ Settings</a>
-            `;
-            
-            // Add admin link only for admin users
-            if (user && user.role === 'admin') {
-                sidebarLinks += `<a href="admin.html">👑 Admin</a>`;
-            }
-            
-            sidebarLinks += `<a href="#" onclick="logout()">🚪 Logout</a>`;
-            sidebar.innerHTML = sidebarLinks;
-        }
-    }
-    
-    // Update navbar for settings page
-    if (currentPage === 'settings.html') {
-        const sidebar = document.querySelector('.sidebar');
-        if (sidebar) {
-            let sidebarLinks = `
-                <a href="index.html">🏠 Home</a>
-                <a href="profile.html">👤 Profile</a>
-                <a href="settings.html" class="active">⚙ Settings</a>
-            `;
-            
-            // Add admin link only for admin users
-            if (user && user.role === 'admin') {
-                sidebarLinks += `<a href="admin.html">👑 Admin</a>`;
-            }
-            
-            sidebarLinks += `<a href="#" onclick="logout()">🚪 Logout</a>`;
-            sidebar.innerHTML = sidebarLinks;
-        }
-    }
-}
-
-// Display user info on profile/settings pages
-function displayUserInfo() {
-    const user = getCurrentUser();
-    
-    // Update profile page
-    if (window.location.pathname.includes('profile.html')) {
-        const nameElement = document.querySelector('.profile-card h3');
-        const emailElement = document.querySelector('.profile-card p:first-of-type');
-        
-        if (nameElement && user) {
-            nameElement.textContent = user.name;
-        }
-        if (emailElement && user) {
-            emailElement.textContent = `Email: ${user.email}`;
-        }
-    }
-    
-    // Update admin dashboard
-    if (window.location.pathname.includes('admin.html')) {
-        const userNameElement = document.getElementById('userName');
-        if (userNameElement && user) {
-            userNameElement.textContent = user.name;
-        }
-    }
-}
-
-// Setup login form
-function setupLoginForm() {
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            // Validate form
-            const errors = validateLoginForm(email, password);
-            
-            if (errors.length > 0) {
-                alert('❌ ' + errors.join('\n'));
-                return;
-            }
-            
-            // Attempt login
-            if (handleLogin(email, password)) {
-                // Login successful - redirect happens in handleLogin
-            } else {
-                alert('❌ Invalid email or password.\n\nTry:\nAdmin: admin@example.com / admin123\nUser: ana@email.com / user123');
-            }
-        });
-    }
-}
-
-// Setup signup form
-function setupSignupForm() {
-    const signupForm = document.getElementById('signupForm');
-    if (signupForm) {
-        signupForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('signupName').value;
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-            
-            // Validate form
-            const errors = validateSignupForm(name, email, password, password);
-            
-            if (errors.length > 0) {
-                alert('❌ ' + errors.join('\n'));
-                return;
-            }
-            
-            // Check if email already exists
-            if (users.some(user => user.email.toLowerCase() === email.toLowerCase())) {
-                alert('❌ Email already exists!');
-                return;
-            }
-            
-            // Create new user
-            const newId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
-            
-            const newUser = {
-                id: newId,
-                name: name,
-                email: email,
-                role: 'user',
-                password: password
-            };
-            
-            users.push(newUser);
-            alert('✅ Account created successfully! Please login.');
-            window.location.href = 'login.html';
-        });
-    }
-}
-
-// ============================================
-// WORLD EXPLORER API FUNCTIONS
-// ============================================
-
-// API endpoint
+// REST Countries API
 const API_BASE_URL = 'https://restcountries.com/v3.1';
 
-// DOM elements for World Explorer
+// Global variables
 let countryInput, searchBtn, resultContainer, errorContainer, exampleButtons;
-
-// Add this variable to store current country data for saving
 let currentCountryData = null;
 
-// Initialize World Explorer
-function initWorldExplorer() {
-    countryInput = document.getElementById('countryInput');
-    searchBtn = document.getElementById('searchBtn');
-    resultContainer = document.getElementById('result');
-    errorContainer = document.getElementById('error');
-    exampleButtons = document.querySelectorAll('.example-country');
+// ============================================
+// ATTRACTION DETAILS DATABASE
+// ============================================
+
+async function showAttractionDetails(attractionName, countryName, xid = null) {
+    let details = null;
     
-    if (!searchBtn) return; // Not on API page
-    
-    // Event listeners
-    searchBtn.addEventListener('click', searchCountry);
-    
-    if (countryInput) {
-        countryInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                searchCountry();
+    // If we have xid, fetch real details from OpenTripMap
+    if (xid) {
+        try {
+            const detailUrl = `${OPENTRIPMAP_BASE}/xid/${xid}?apikey=${OPENTRIPMAP_API_KEY}`;
+            const response = await fetch(detailUrl);
+            if (response.ok) {
+                const data = await response.json();
+                details = {
+                    fullDescription: data.wikipedia_extracts?.text || data.info?.descr || `${attractionName} is a beautiful attraction in ${countryName}.`,
+                    bestTimeToVisit: getBestTimeToVisit(countryName),
+                    activities: data.kinds ? data.kinds.split(',').slice(0, 5) : ["Sightseeing", "Photography", "Local Exploration"],
+                    entranceFee: getEntranceFee(attractionName),
+                    location: data.address?.city || data.address?.country || countryName,
+                    howToGetThere: "Accessible via local transportation. Check local tourism office for details.",
+                    openingHours: getOpeningHours(attractionName),
+                    website: data.wikipedia ? `https://en.wikipedia.org/wiki/${encodeURIComponent(attractionName)}` : null
+                };
             }
-        });
+        } catch (error) {
+            console.log('Error fetching attraction details:', error);
+        }
     }
     
-    // Add event listeners to example buttons
-    exampleButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const country = button.dataset.country;
-            countryInput.value = country;
-            searchCountry();
-        });
-    });
+    // Fallback details if API fails
+    if (!details) {
+        details = {
+            fullDescription: `${attractionName} is a must-visit attraction in ${countryName}. Experience the beauty, culture, and history of this amazing destination.`,
+            bestTimeToVisit: getBestTimeToVisit(countryName),
+            activities: ["Sightseeing", "Photography", "Cultural Experience", "Local Exploration"],
+            entranceFee: "Check local tourism websites for current rates",
+            location: countryName,
+            howToGetThere: "Accessible via local transportation or tour operators",
+            openingHours: "Varies by season - check locally"
+        };
+    }
     
-    // Load a default country on page load
-    countryInput.value = 'Philippines';
-    searchCountry();
+    // Create modal HTML
+    const modalHTML = `
+        <div id="attractionModal" class="modal attraction-modal">
+            <div class="modal-content attraction-modal-content">
+                <span class="close-modal" onclick="closeAttractionModal()">&times;</span>
+                <div class="attraction-modal-header">
+                    <h2>${attractionName}</h2>
+                    <p class="attraction-location">📍 ${details.location}</p>
+                </div>
+                <div class="attraction-modal-body">
+                    <div class="attraction-detail-section">
+                        <h3>📝 Description</h3>
+                        <p>${details.fullDescription}</p>
+                    </div>
+                    <div class="attraction-detail-section">
+                        <h3>📅 Best Time to Visit</h3>
+                        <p>${details.bestTimeToVisit}</p>
+                    </div>
+                    <div class="attraction-detail-section">
+                        <h3>🎯 Activities</h3>
+                        <ul class="activities-list">
+                            ${details.activities.map(activity => `<li>${activity.charAt(0).toUpperCase() + activity.slice(1)}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="attraction-detail-section">
+                        <h3>💰 Entrance Fee</h3>
+                        <p>${details.entranceFee}</p>
+                    </div>
+                    <div class="attraction-detail-section">
+                        <h3>🚗 How to Get There</h3>
+                        <p>${details.howToGetThere}</p>
+                    </div>
+                    <div class="attraction-detail-section">
+                        <h3>🕐 Opening Hours</h3>
+                        <p>${details.openingHours}</p>
+                    </div>
+                    ${details.website ? `
+                    <div class="attraction-detail-section">
+                        <h3>🌐 Learn More</h3>
+                        <a href="${details.website}" target="_blank" class="website-link">View on Wikipedia →</a>
+                    </div>
+                    ` : ''}
+                </div>
+                <div class="attraction-modal-footer">
+                    <button onclick="closeAttractionModal()" class="cta">Close</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    const existingModal = document.getElementById('attractionModal');
+    if (existingModal) existingModal.remove();
+    
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    const modal = document.getElementById('attractionModal');
+    modal.style.display = 'block';
+    
+    modal.onclick = function(event) {
+        if (event.target === modal) closeAttractionModal();
+    };
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeAttractionModal();
+    });
 }
 
-// Main search function
+function closeAttractionModal() {
+    const modal = document.getElementById('attractionModal');
+    if (modal) modal.remove();
+}
+
+function getBestTimeToVisit(countryName) {
+    const seasons = {
+        "Philippines": "November to May (Dry Season)",
+        "Japan": "Spring (March-May) for cherry blossoms, Autumn (Oct-Nov)",
+        "France": "Spring (April-June) and Fall (September-October)",
+        "Italy": "Spring (April-June) and Fall (September-October)",
+        "Thailand": "November to February (Cool and dry season)",
+        "Spain": "Spring (March-May) and Fall (September-November)",
+        "Australia": "September to November (Spring) and March to May (Autumn)",
+        "Egypt": "October to April (Cooler months)"
+    };
+    return seasons[countryName] || "Varies by region - check local climate";
+}
+
+function getEntranceFee(attractionName) {
+    const fees = {
+        "Eiffel Tower": "Adult: €16-26, Children: €4-13",
+        "Colosseum": "Adult: €16, EU 18-25: €2, Under 18: Free",
+        "Mount Fuji": "Free (Conservation fee: ¥1,000 during climbing season)",
+        "Fushimi Inari Shrine": "Free admission"
+    };
+    return fees[attractionName] || "Check local tourism websites for current rates";
+}
+
+function getOpeningHours(attractionName) {
+    const hours = {
+        "Eiffel Tower": "9:00 AM - 11:45 PM",
+        "Colosseum": "8:30 AM - 7:15 PM",
+        "Fushimi Inari Shrine": "24/7"
+    };
+    return hours[attractionName] || "Varies by season - check locally";
+}
+
+// ============================================
+// OPENTRIPMAP SEARCH FUNCTIONS
+// ============================================
+
+async function getCountryCoordinates(countryName) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/name/${encodeURIComponent(countryName)}`);
+        const data = await response.json();
+        if (data && data[0] && data[0].latlng) {
+            return {
+                lat: data[0].latlng[0],
+                lon: data[0].latlng[1]
+            };
+        }
+        return null;
+    } catch (error) {
+        console.log('Error getting coordinates:', error);
+        return null;
+    }
+}
+
+async function getAttractionsFromOpenTripMap(lat, lon) {
+    try {
+        // Search for attractions within 50km radius
+        const radius = 50000;
+        const searchUrl = `${OPENTRIPMAP_BASE}/radius?radius=${radius}&lon=${lon}&lat=${lat}&kinds=tourist_attractions&format=json&apikey=${OPENTRIPMAP_API_KEY}&limit=10`;
+        
+        const response = await fetch(searchUrl);
+        const data = await response.json();
+        
+        if (data && data.features && data.features.length > 0) {
+            const attractions = await Promise.all(data.features.slice(0, 8).map(async (feature) => {
+                const name = feature.properties.name;
+                const xid = feature.properties.xid;
+                
+                // Get attraction image from Unsplash
+                const image = await getAttractionImage(name);
+                
+                return {
+                    name: name,
+                    description: feature.properties.wikipedia_extracts?.text || feature.properties.kinds?.split(',').slice(0, 3).join(', ') || "A beautiful tourist attraction worth visiting.",
+                    rating: `⭐ ${(Math.random() * 1 + 3.5).toFixed(1)}`,
+                    image: image,
+                    xid: xid,
+                    lat: feature.geometry.coordinates[1],
+                    lon: feature.geometry.coordinates[0]
+                };
+            }));
+            
+            return attractions.filter(a => a.name && a.name !== "undefined");
+        }
+        return null;
+    } catch (error) {
+        console.log('OpenTripMap API error:', error);
+        return null;
+    }
+}
+
+async function getAttractionImage(attractionName) {
+    try {
+        const searchQuery = encodeURIComponent(`${attractionName} landmark tourist`);
+        return `https://source.unsplash.com/featured/400x250?${searchQuery}&sig=${Math.random()}`;
+    } catch (error) {
+        return 'https://via.placeholder.com/400x250?text=No+Image+Available';
+    }
+}
+
+// ============================================
+// MAIN SEARCH FUNCTION
+// ============================================
+
 async function searchCountry() {
+    if (!countryInput) return;
+    
     const countryName = countryInput.value.trim();
     
-    // Validate input
     if (!countryName) {
         showError('Please enter a country name');
         return;
     }
     
-    // Show loading state
     setLoadingState(true);
-    
-    // Clear previous results
     clearResults();
     
     try {
-        // Fetch data from API
-        const response = await fetch(`${API_BASE_URL}/name/${encodeURIComponent(countryName)}?fullText=true`);
+        const response = await fetch(`${API_BASE_URL}/name/${encodeURIComponent(countryName)}`);
         
-        // Check if response is ok
         if (!response.ok) {
-            if (response.status === 404) {
-                throw new Error('Country not found. Please check the spelling and try again.');
-            } else {
-                throw new Error('Failed to fetch country data. Please try again later.');
-            }
+            throw new Error('Country not found. Please check the spelling and try again.');
         }
         
-        // Parse JSON response
         const data = await response.json();
-        
-        // Check if data exists
         if (!data || data.length === 0) {
             throw new Error('No information found for this country.');
         }
         
-        // Display the country data
-        displayCountryData(data[0]);
+        const country = data[0];
+        currentCountryData = country;
+        
+        // Get coordinates and fetch attractions
+        const coords = await getCountryCoordinates(country.name.common);
+        let attractions = null;
+        
+        if (coords) {
+            attractions = await getAttractionsFromOpenTripMap(coords.lat, coords.lon);
+        }
+        
+        displayCountryWithAttractions(country, attractions);
         
     } catch (error) {
-        // Handle errors
+        console.error('Error:', error);
         showError(error.message);
     } finally {
-        // Hide loading state
         setLoadingState(false);
     }
 }
 
-// Display country data in the UI (WITH SAVE BUTTON)
-function displayCountryData(country) {
-    // Store current country data for saving
-    currentCountryData = country;
-    
-    // Check if country is already saved
+function displayCountryWithAttractions(country, attractions) {
     const isSaved = checkIfSaved(country.cca2 || country.name.common);
     
-    // Create country card HTML with save button
+    // Build attractions HTML
+    let attractionsHTML = '';
+    
+    if (attractions && attractions.length > 0) {
+        attractions.forEach(attraction => {
+            attractionsHTML += `
+                <div class="attraction-card clickable" onclick="showAttractionDetails('${attraction.name.replace(/'/g, "\\'")}', '${country.name.common.replace(/'/g, "\\'")}', '${attraction.xid || ''}')">
+                    <div class="attraction-image">
+                        <img src="${attraction.image}" alt="${attraction.name}" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Available'">
+                    </div>
+                    <div class="attraction-content">
+                        <div class="attraction-name">${attraction.name}</div>
+                        <div class="attraction-desc">${attraction.description.substring(0, 100)}${attraction.description.length > 100 ? '...' : ''}</div>
+                        <div class="attraction-rating">${attraction.rating}</div>
+                        <div class="attraction-click-hint">🔍 Click to view details</div>
+                    </div>
+                </div>
+            `;
+        });
+    } else {
+        // Fallback attractions
+        const fallbackSpots = getFallbackSpots(country.name.common);
+        fallbackSpots.forEach(spot => {
+            attractionsHTML += `
+                <div class="attraction-card clickable" onclick="showAttractionDetails('${spot.name.replace(/'/g, "\\'")}', '${country.name.common.replace(/'/g, "\\'")}')">
+                    <div class="attraction-image">
+                        <img src="${spot.image}" alt="${spot.name}" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Not+Available'">
+                    </div>
+                    <div class="attraction-content">
+                        <div class="attraction-name">${spot.name}</div>
+                        <div class="attraction-desc">${spot.description}</div>
+                        <div class="attraction-rating">${spot.rating}</div>
+                        <div class="attraction-click-hint">🔍 Click to view details</div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+    
     const countryHTML = `
         <div class="country-card">
             <div class="country-flag">
-                <img src="${country.flags.png}" alt="Flag of ${country.name.common}">
+                <img src="${country.flags.png}" alt="Flag of ${country.name.common}" onerror="this.src='https://via.placeholder.com/300x200?text=Flag+Not+Available'">
             </div>
             <div class="country-info">
                 <h2>${country.name.common}</h2>
+                <p class="country-motto">${country.name.official}</p>
+                
                 <div class="info-grid">
                     <div class="info-item">
-                        <h4>Official Name</h4>
-                        <p>${country.name.official}</p>
-                    </div>
-                    <div class="info-item">
-                        <h4>Capital</h4>
+                        <h4>🏛️ Capital</h4>
                         <p>${country.capital ? country.capital[0] : 'N/A'}</p>
                     </div>
                     <div class="info-item">
-                        <h4>Population</h4>
+                        <h4>👥 Population</h4>
                         <p>${country.population.toLocaleString()}</p>
                     </div>
                     <div class="info-item">
-                        <h4>Region</h4>
+                        <h4>🌍 Region</h4>
                         <p>${country.region}</p>
                     </div>
                     <div class="info-item">
-                        <h4>Subregion</h4>
-                        <p>${country.subregion || 'N/A'}</p>
-                    </div>
-                    <div class="info-item">
-                        <h4>Area</h4>
-                        <p>${country.area.toLocaleString()} km²</p>
-                    </div>
-                    <div class="info-item">
-                        <h4>Currency</h4>
+                        <h4>💵 Currency</h4>
                         <p>${getCurrency(country.currencies)}</p>
                     </div>
                     <div class="info-item">
-                        <h4>Languages</h4>
+                        <h4>🗣️ Language</h4>
                         <p>${getLanguages(country.languages)}</p>
                     </div>
-                    <div class="info-item">
-                        <h4>Time Zone</h4>
-                        <p>${country.timezones[0]}</p>
-                    </div>
-                    <div class="info-item">
-                        <h4>Continent</h4>
-                        <p>${country.continents[0]}</p>
+                </div>
+                
+                <div class="attractions-section">
+                    <h3>🌟 Real Tourist Attractions <span class="click-hint">(Powered by OpenTripMap)</span></h3>
+                    <div class="attractions-grid">
+                        ${attractionsHTML}
                     </div>
                 </div>
-                <!-- SAVE BUTTON -->
+                
+                <div class="travel-tip">
+                    <h4>💡 Travel Tip</h4>
+                    <p>${getTravelTip(country.name.common)}</p>
+                </div>
+                
                 <button class="save-btn" onclick="saveCurrentCountry()" 
                         style="background: ${isSaved ? '#28a745' : '#ffd700'}; 
                                color: ${isSaved ? 'white' : '#333'}; 
@@ -754,18 +692,51 @@ function displayCountryData(country) {
                                justify-content: center;
                                gap: 8px;"
                         ${isSaved ? 'disabled' : ''}>
-                    ${isSaved ? '✓ Already Saved' : '⭐ Save Country'}
+                    ${isSaved ? '✓ Added to Travel Wishlist' : '✈️ Add to Travel Wishlist'}
                 </button>
             </div>
         </div>
     `;
     
-    // Update result container
-    resultContainer.innerHTML = countryHTML;
-    resultContainer.classList.add('active');
+    if (resultContainer) {
+        resultContainer.innerHTML = countryHTML;
+        resultContainer.classList.add('active');
+    }
 }
 
-// Helper function to get currency information
+function getFallbackSpots(countryName) {
+    const fallbacks = {
+        "Philippines": [
+            { name: "🏝️ Boracay Island", description: "World-famous white sand beach", rating: "⭐ 4.9", image: "https://source.unsplash.com/featured/400x250?boracay" },
+            { name: "🏞️ Palawan", description: "Underground River & lagoons", rating: "⭐ 5.0", image: "https://source.unsplash.com/featured/400x250?palawan" },
+            { name: "🌋 Banaue Rice Terraces", description: "Ancient mountain terraces", rating: "⭐ 4.8", image: "https://source.unsplash.com/featured/400x250?rice+terraces" }
+        ],
+        "Japan": [
+            { name: "🗻 Mount Fuji", description: "Iconic volcano", rating: "⭐ 5.0", image: "https://source.unsplash.com/featured/400x250?mount+fuji" },
+            { name: "🏯 Kyoto Temples", description: "Ancient Buddhist temples", rating: "⭐ 4.9", image: "https://source.unsplash.com/featured/400x250?kyoto+temple" },
+            { name: "🌸 Arashiyama Bamboo Grove", description: "Enchanting bamboo forest", rating: "⭐ 4.8", image: "https://source.unsplash.com/featured/400x250?bamboo+forest" }
+        ]
+    };
+    return fallbacks[countryName] || [
+        { name: "📍 Main City Center", description: `Explore ${countryName}`, rating: "⭐ 4.5", image: "https://source.unsplash.com/featured/400x250?city" },
+        { name: "🏛️ Historical Landmark", description: `Discover history of ${countryName}`, rating: "⭐ 4.6", image: "https://source.unsplash.com/featured/400x250?landmark" }
+    ];
+}
+
+function getTravelTip(countryName) {
+    const tips = {
+        "Philippines": "Learn basic Filipino phrases - locals appreciate the effort!",
+        "Japan": "Get a Japan Rail Pass before traveling - it saves money!",
+        "France": "Learn basic French greetings - locals appreciate the effort!",
+        "Italy": "Validate train tickets before boarding to avoid fines!",
+        "Thailand": "Always negotiate prices at markets, but be respectful!",
+        "Spain": "Eat dinner late (9-10 PM) like the locals!",
+        "Australia": "Always wear sunscreen - the Australian sun is intense!",
+        "Egypt": "Hire a licensed guide for historical sites!"
+    };
+    return tips[countryName] || "Research local customs and etiquette before visiting";
+}
+
 function getCurrency(currencies) {
     if (!currencies) return 'N/A';
     const currencyCode = Object.keys(currencies)[0];
@@ -774,28 +745,21 @@ function getCurrency(currencies) {
     return `${currency.name} (${currency.symbol})`;
 }
 
-// Helper function to get languages
 function getLanguages(languages) {
     if (!languages) return 'N/A';
     return Object.values(languages).join(', ');
 }
 
-// Show error message
 function showError(message) {
     if (errorContainer) {
-        errorContainer.innerHTML = `
-            <strong>Error:</strong> ${message}
-        `;
+        errorContainer.innerHTML = `<strong>⚠️ Oops!</strong> ${message}<br><br>💡 Try: Philippines, Japan, France, Italy, Thailand, Spain, Australia, Egypt`;
         errorContainer.classList.add('active');
     }
-    
-    // Hide result container
     if (resultContainer) {
         resultContainer.classList.remove('active');
     }
 }
 
-// Clear previous results
 function clearResults() {
     if (resultContainer) {
         resultContainer.innerHTML = '';
@@ -806,39 +770,35 @@ function clearResults() {
     }
 }
 
-// Set loading state
 function setLoadingState(isLoading) {
     if (searchBtn) {
         searchBtn.disabled = isLoading;
-        searchBtn.textContent = isLoading ? 'Searching...' : 'Search';
+        searchBtn.textContent = isLoading ? 'Discovering attractions...' : '🔍 Discover';
     }
     
     if (isLoading) {
-        // Show loading spinner
         const loader = document.createElement('div');
         loader.className = 'loader active';
         loader.id = 'loader';
         loader.innerHTML = `
             <div class="loader-spinner"></div>
-            <p>Searching for country...</p>
+            <p>Finding real tourist attractions from OpenTripMap...</p>
         `;
         if (resultContainer && resultContainer.parentNode) {
+            const existingLoader = document.getElementById('loader');
+            if (existingLoader) existingLoader.remove();
             resultContainer.parentNode.insertBefore(loader, resultContainer);
         }
     } else {
-        // Remove loading spinner
         const loader = document.getElementById('loader');
-        if (loader) {
-            loader.remove();
-        }
+        if (loader) loader.remove();
     }
 }
 
 // ============================================
-// SAVE FEATURE FUNCTIONS (localStorage)
+// SAVE FEATURE FUNCTIONS
 // ============================================
 
-// Save current country to localStorage
 function saveCurrentCountry() {
     if (!currentCountryData) {
         showSaveMessage('No country data to save!', 'error');
@@ -846,24 +806,18 @@ function saveCurrentCountry() {
     }
     
     try {
-        // Get existing saved countries
         let savedCountries = getSavedCountries();
-        
-        // Check for duplicates using country code or name
         const countryId = currentCountryData.cca2 || currentCountryData.name.common;
         const isDuplicate = savedCountries.some(country => {
             const savedId = country.id || country.name?.common || country.name;
-            return savedId === countryId || 
-                   country.name?.common === currentCountryData.name.common ||
-                   country.name === currentCountryData.name.common;
+            return savedId === countryId;
         });
         
         if (isDuplicate) {
-            showSaveMessage('This country is already saved!', 'error');
+            showSaveMessage('This destination is already in your wishlist!', 'error');
             return;
         }
         
-        // Prepare meaningful data to store
         const countryToSave = {
             id: countryId,
             name: {
@@ -880,53 +834,39 @@ function saveCurrentCountry() {
             currency: getCurrency(currentCountryData.currencies)
         };
         
-        // Add to saved countries
         savedCountries.push(countryToSave);
-        
-        // Save to localStorage
         localStorage.setItem('savedCountries', JSON.stringify(savedCountries));
         
-        // Update button state
         const saveBtn = document.querySelector('.save-btn');
         if (saveBtn) {
-            saveBtn.textContent = '✓ Saved!';
+            saveBtn.textContent = '✓ Added to Wishlist!';
             saveBtn.style.background = '#28a745';
             saveBtn.style.color = 'white';
             saveBtn.disabled = true;
         }
         
-        // Show success message
-        showSaveMessage('Country saved successfully!', 'success');
+        showSaveMessage(`✨ ${currentCountryData.name.common} added to your travel wishlist!`, 'success');
         
     } catch (error) {
         console.error('Error saving country:', error);
-        showSaveMessage('Failed to save country. Please try again.', 'error');
+        showSaveMessage('Failed to save destination. Please try again.', 'error');
     }
 }
 
-// Get saved countries from localStorage
 function getSavedCountries() {
     const saved = localStorage.getItem('savedCountries');
     return saved ? JSON.parse(saved) : [];
 }
 
-// Check if country is already saved
 function checkIfSaved(countryId) {
     const savedCountries = getSavedCountries();
     return savedCountries.some(country => {
         const savedId = country.id || country.name?.common || country.name;
-        return savedId === countryId || country.name?.common === countryId;
+        return savedId === countryId;
     });
 }
 
-// Show save message (toast notification)
-function showSaveMessage(message, type = 'info') {
-    // Remove any existing message
-    const existingMsg = document.querySelector('.save-message');
-    if (existingMsg) {
-        existingMsg.remove();
-    }
-    
+function showSaveMessage(message, type) {
     const msgDiv = document.createElement('div');
     msgDiv.className = `save-message ${type}`;
     msgDiv.style.cssText = `
@@ -947,176 +887,87 @@ function showSaveMessage(message, type = 'info') {
     
     msgDiv.innerHTML = `
         <span>${message}</span>
-        <button onclick="this.parentElement.remove()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #999;">×</button>
+        <button onclick="this.parentElement.remove()" style="background: none; border: none; font-size: 20px; cursor: pointer;">×</button>
     `;
     
     document.body.appendChild(msgDiv);
-    
-    // Add animation keyframes if not exists
-    if (!document.querySelector('#slideIn-keyframes')) {
-        const style = document.createElement('style');
-        style.id = 'slideIn-keyframes';
-        style.textContent = `
-            @keyframes slideIn {
-                from {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-    
-    // Auto remove after 3 seconds
-    setTimeout(() => {
-        if (msgDiv.parentElement) {
-            msgDiv.remove();
-        }
-    }, 3000);
+    setTimeout(() => msgDiv.remove(), 3000);
 }
 
 // ============================================
-// SAVED ITEMS PAGE FUNCTIONS (INCLUDED IN script.js)
+// SAVED ITEMS PAGE FUNCTIONS
 // ============================================
 
-// Display saved items on saved-items.html
 function displaySavedItems() {
     const savedItemsContainer = document.getElementById('savedItemsContainer');
     const emptyState = document.getElementById('emptyState');
-    const errorContainer = document.getElementById('error');
+    const statsDiv = document.getElementById('stats');
+    const savedCountSpan = document.getElementById('savedCount');
     
-    if (!savedItemsContainer) return; // Not on saved items page
+    if (!savedItemsContainer) return;
     
-    try {
-        // Get saved countries from localStorage
-        const savedCountries = getSavedCountries();
-        
-        // Check if there are any saved items
-        if (!savedCountries || savedCountries.length === 0) {
-            if (emptyState) emptyState.style.display = 'block';
-            if (savedItemsContainer) savedItemsContainer.style.display = 'none';
-            return;
-        }
-        
-        // Hide empty state, show saved items
-        if (emptyState) emptyState.style.display = 'none';
-        if (savedItemsContainer) savedItemsContainer.style.display = 'grid';
-        
-        // Clear the container
-        savedItemsContainer.innerHTML = '';
-        
-        // Display each saved country
-        savedCountries.forEach((country, index) => {
-            const itemCard = createSavedItemCard(country, index);
-            savedItemsContainer.appendChild(itemCard);
-        });
-        
-    } catch (error) {
-        console.error('Error displaying saved items:', error);
-        if (errorContainer) {
-            errorContainer.innerHTML = `<strong>Error:</strong> Failed to load saved items.`;
-            errorContainer.style.display = 'block';
-        }
+    const savedCountries = getSavedCountries();
+    
+    if (!savedCountries || savedCountries.length === 0) {
+        if (emptyState) emptyState.style.display = 'block';
+        if (savedItemsContainer) savedItemsContainer.style.display = 'none';
+        if (statsDiv) statsDiv.style.display = 'none';
+        return;
     }
+    
+    if (emptyState) emptyState.style.display = 'none';
+    if (savedItemsContainer) savedItemsContainer.style.display = 'grid';
+    if (statsDiv) statsDiv.style.display = 'block';
+    if (savedCountSpan) savedCountSpan.textContent = savedCountries.length;
+    
+    savedItemsContainer.innerHTML = '';
+    savedCountries.forEach((country, index) => {
+        const card = createSavedItemCard(country, index);
+        savedItemsContainer.appendChild(card);
+    });
 }
 
-// Create HTML for a saved item card
 function createSavedItemCard(country, index) {
     const card = document.createElement('div');
     card.className = 'saved-item-card';
-    card.dataset.index = index;
     
-    // Extract data with fallbacks
-    const countryName = country.name?.common || country.name || 'Unknown Country';
-    const countryOfficial = country.name?.official || countryName;
-    const capital = country.capital || 'N/A';
-    const region = country.region || 'N/A';
-    const population = country.population ? country.population.toLocaleString() : 'N/A';
-    const languages = country.languages || 'N/A';
-    const currency = country.currency || 'N/A';
-    const flagUrl = country.flags?.png || country.flag || 'https://via.placeholder.com/300x180?text=No+Flag';
+    const countryName = country.name?.common || country.name;
+    const flagUrl = country.flags?.png || 'https://via.placeholder.com/300x180?text=No+Flag';
     const countryId = country.id || countryName;
     
     card.innerHTML = `
-        <img src="${flagUrl}" alt="Flag of ${countryName}" class="saved-item-flag" onerror="this.src='https://via.placeholder.com/300x180?text=Flag+Not+Available'">
-        <button class="delete-btn" onclick="deleteSavedItem('${countryId}')" title="Remove from saved">×</button>
+        <img src="${flagUrl}" alt="Flag of ${countryName}" class="saved-item-flag">
+        <button class="delete-btn" onclick="deleteSavedItem('${countryId}')">×</button>
         <div class="saved-item-info">
             <h3>${countryName}</h3>
-            <p class="saved-item-detail"><strong>Official Name:</strong> <span>${countryOfficial}</span></p>
-            <p class="saved-item-detail"><strong>Capital:</strong> <span>${capital}</span></p>
-            <p class="saved-item-detail"><strong>Region:</strong> <span>${region}</span></p>
-            <p class="saved-item-detail"><strong>Population:</strong> <span>${population}</span></p>
-            <p class="saved-item-detail"><strong>Languages:</strong> <span>${languages}</span></p>
-            <p class="saved-item-detail"><strong>Currency:</strong> <span>${currency}</span></p>
+            <p class="saved-item-detail"><strong>Capital:</strong> ${country.capital}</p>
+            <p class="saved-item-detail"><strong>Region:</strong> ${country.region}</p>
+            <p class="saved-item-detail"><strong>Population:</strong> ${country.population.toLocaleString()}</p>
         </div>
     `;
-    
     return card;
 }
 
-// Delete a specific saved item
 function deleteSavedItem(countryId) {
-    try {
-        // Get saved countries
-        let savedCountries = getSavedCountries();
-        
-        // Filter out the country to delete
-        savedCountries = savedCountries.filter(country => {
-            const currentId = country.id || country.name?.common || country.name;
-            return currentId != countryId;
-        });
-        
-        // Save back to localStorage
-        localStorage.setItem('savedCountries', JSON.stringify(savedCountries));
-        
-        // Show success message
-        showToast('Country removed from saved!', 'success');
-        
-        // Refresh the display
-        displaySavedItems();
-        
-    } catch (error) {
-        console.error('Error deleting item:', error);
-        showToast('Failed to delete item. Please try again.', 'error');
-    }
+    let savedCountries = getSavedCountries();
+    savedCountries = savedCountries.filter(country => {
+        const currentId = country.id || country.name?.common || country.name;
+        return currentId != countryId;
+    });
+    localStorage.setItem('savedCountries', JSON.stringify(savedCountries));
+    displaySavedItems();
+    showToast('Removed from wishlist!', 'success');
 }
 
-// Clear all saved items
 function clearAllSaved() {
-    const savedCountries = getSavedCountries();
-    if (savedCountries.length === 0) return;
-    
-    // Show confirmation dialog
-    if (confirm('Are you sure you want to remove ALL saved countries? This cannot be undone.')) {
-        try {
-            // Clear localStorage
-            localStorage.removeItem('savedCountries');
-            
-            // Show success message
-            showToast('All saved countries removed!', 'success');
-            
-            // Refresh the display
-            displaySavedItems();
-            
-        } catch (error) {
-            console.error('Error clearing saved items:', error);
-            showToast('Failed to clear saved items. Please try again.', 'error');
-        }
+    if (confirm('Remove ALL saved countries from wishlist?')) {
+        localStorage.removeItem('savedCountries');
+        displaySavedItems();
+        showToast('All saved countries removed!', 'success');
     }
 }
 
-// Show toast notification (for saved items page)
-function showToast(message, type = 'info') {
-    // Remove any existing toast
-    const existingToast = document.querySelector('.toast');
-    if (existingToast) {
-        existingToast.remove();
-    }
-    
+function showToast(message, type) {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     toast.style.cssText = `
@@ -1126,35 +977,181 @@ function showToast(message, type = 'info') {
         background: white;
         padding: 15px 25px;
         border-radius: 8px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        display: flex;
-        align-items: center;
-        gap: 15px;
         animation: slideIn 0.3s ease;
         z-index: 1000;
         border-left: 4px solid ${type === 'success' ? '#28a745' : '#dc3545'};
     `;
-    
-    toast.innerHTML = `
-        <span>${message}</span>
-        <button class="toast-close" onclick="this.parentElement.remove()">×</button>
-    `;
-    
+    toast.innerHTML = `<span>${message}</span>`;
     document.body.appendChild(toast);
-    
-    // Auto remove after 3 seconds
-    setTimeout(() => {
-        if (toast.parentElement) {
-            toast.remove();
-        }
-    }, 3000);
+    setTimeout(() => toast.remove(), 3000);
 }
 
 // ============================================
-// MAKE FUNCTIONS GLOBALLY AVAILABLE
+// PAGE INITIALIZATION
 // ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    
+    updateNavigation();
+    
+    if (currentPage.includes('admin.html') || currentPage.includes('manage-users.html')) {
+        checkAdminAccess();
+    } else if (currentPage.includes('profile.html') || currentPage.includes('settings.html')) {
+        checkAuth();
+    }
+    
+    if (currentPage.includes('manage-users.html')) {
+        loadUsers();
+        
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const roleSelect = document.getElementById('role');
+        
+        if (nameInput) nameInput.addEventListener('input', updatePreview);
+        if (emailInput) emailInput.addEventListener('input', updatePreview);
+        if (roleSelect) roleSelect.addEventListener('change', updatePreview);
+        
+        const addUserForm = document.getElementById('addUserForm');
+        if (addUserForm) {
+            addUserForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                addUser(e);
+            });
+        }
+    }
+    
+    displayUserInfo();
+    updateUserCount();
+    
+    if (currentPage.includes('login.html')) {
+        setupLoginForm();
+    }
+    
+    if (currentPage.includes('signup.html')) {
+        setupSignupForm();
+    }
+    
+    // Initialize World Explorer for api.html
+    if (currentPage === 'api.html') {
+        countryInput = document.getElementById('countryInput');
+        searchBtn = document.getElementById('searchBtn');
+        resultContainer = document.getElementById('result');
+        errorContainer = document.getElementById('error');
+        exampleButtons = document.querySelectorAll('.example-country');
+        
+        if (searchBtn) {
+            searchBtn.addEventListener('click', searchCountry);
+            if (countryInput) {
+                countryInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') searchCountry();
+                });
+            }
+            exampleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const country = button.dataset.country;
+                    if (countryInput) countryInput.value = country;
+                    searchCountry();
+                });
+            });
+            
+            if (countryInput && countryInput.value === '') {
+                countryInput.value = 'Philippines';
+            }
+            searchCountry();
+        }
+    }
+    
+    if (currentPage.includes('saved-items.html')) {
+        displaySavedItems();
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        if (clearAllBtn) clearAllBtn.addEventListener('click', clearAllSaved);
+    }
+});
+
+function updateNavigation() {
+    const user = getCurrentUser();
+    const currentPage = window.location.pathname.split('/').pop();
+    
+    if (currentPage === 'profile.html' || currentPage === 'settings.html') {
+        const sidebar = document.querySelector('.sidebar');
+        if (sidebar) {
+            let sidebarLinks = `
+                <a href="index.html">🏠 Home</a>
+                <a href="profile.html" class="active">👤 Profile</a>
+                <a href="settings.html">⚙ Settings</a>
+            `;
+            if (user && user.role === 'admin') {
+                sidebarLinks += `<a href="admin.html">👑 Admin</a>`;
+            }
+            sidebarLinks += `<a href="#" onclick="logout()">🚪 Logout</a>`;
+            sidebar.innerHTML = sidebarLinks;
+        }
+    }
+}
+
+function displayUserInfo() {
+    const user = getCurrentUser();
+    
+    if (window.location.pathname.includes('profile.html')) {
+        const nameElement = document.querySelector('.profile-card h3');
+        const emailElement = document.querySelector('.profile-card p:first-of-type');
+        if (nameElement && user) nameElement.textContent = user.name;
+        if (emailElement && user) emailElement.textContent = `Email: ${user.email}`;
+    }
+    
+    if (window.location.pathname.includes('admin.html')) {
+        const userNameElement = document.getElementById('userName');
+        if (userNameElement && user) userNameElement.textContent = user.name;
+    }
+}
+
+function setupLoginForm() {
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const errors = validateLoginForm(email, password);
+            if (errors.length > 0) {
+                alert('❌ ' + errors.join('\n'));
+                return;
+            }
+            if (!handleLogin(email, password)) {
+                alert('❌ Invalid email or password.\n\nTry:\nAdmin: admin@example.com / admin123\nUser: ana@email.com / user123');
+            }
+        });
+    }
+}
+
+function setupSignupForm() {
+    const signupForm = document.getElementById('signupForm');
+    if (signupForm) {
+        signupForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const errors = validateSignupForm(name, email, password, password);
+            if (errors.length > 0) {
+                alert('❌ ' + errors.join('\n'));
+                return;
+            }
+            if (users.some(user => user.email.toLowerCase() === email.toLowerCase())) {
+                alert('❌ Email already exists!');
+                return;
+            }
+            const newId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
+            users.push({ id: newId, name, email, role: 'user', password });
+            alert('✅ Account created successfully! Please login.');
+            window.location.href = 'login.html';
+        });
+    }
+}
+
+// Make functions globally available
 window.saveCurrentCountry = saveCurrentCountry;
-window.showSaveMessage = showSaveMessage;
 window.deleteSavedItem = deleteSavedItem;
 window.clearAllSaved = clearAllSaved;
 window.addUser = addUser;
@@ -1164,3 +1161,5 @@ window.updateUser = updateUser;
 window.closeEditModal = closeEditModal;
 window.logout = logout;
 window.updatePreview = updatePreview;
+window.showAttractionDetails = showAttractionDetails;
+window.closeAttractionModal = closeAttractionModal;

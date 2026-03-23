@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LISING | Integrative Programming</title>
+    <title>Travel Explorer | Discover Amazing Destinations</title>
 
     <!-- Google Font -->
     <link
@@ -19,80 +19,160 @@
     <!-- ===== HEADER / NAVBAR ===== -->
     <header class="navbar">
       <div class="logo">
-        <span class="subject">IPT 101</span>
-        <span class="name">Rey Anthony Lising</span>
+        <span class="subject">TRAVEL EXPLORER</span>
+        <span class="name">Discover the World</span>
       </div>
 
       <nav class="nav-links">
-        <a href="login.html" class="nav-btn highlight-btn">Login</a>
+        <a href="api.html" class="nav-btn">🌍 Explore Now</a>
+        <a href="login.html" class="nav-btn highlight-btn">Sign In</a>
       </nav>
     </header>
 
     <!-- ===== MAIN CONTENT ===== -->
     <main>
-      <!-- HERO -->
-      <section class="hero">
+      <!-- HERO SECTION - Travel Themed -->
+      <section class="hero travel-hero">
         <div class="hero-content">
           <h1 class="glow">
-            LISING<br />
-            <span class="highlight">INTEGRATIVE PROGRAMMING</span>
+            DISCOVER<br />
+            <span class="highlight">AMAZING DESTINATIONS</span>
           </h1>
 
           <p class="hero-subtext">
-            A futuristic landing page project built using modern HTML, CSS, and
-            JavaScript validation principles.
+            Explore breathtaking tourist spots, discover local cuisine, and plan your next adventure
+            with our comprehensive travel guide.
           </p>
 
           <div class="hero-buttons">
-            <a href="login.html" class="cta">Get Started  </a>
-            <a href="#overview" class="secondary-btn">Learn More</a>
+            <a href="api.html" class="cta">Start Exploring ✈️</a>
+            <a href="#features" class="secondary-btn">Learn More</a>
           </div>
         </div>
       </section>
 
-      <!-- PROJECT OVERVIEW -->
-      <section class="content" id="overview">
-        <h2 class="section-title">Project Overview</h2>
+      <!-- FEATURES SECTION -->
+      <section class="content" id="features">
+        <h2 class="section-title">Why Travel With Us?</h2>
 
         <p class="section-description">
-          This project demonstrates clean structure, responsive layout, smooth
-          animations, and client-side validation while maintaining professional
-          web design standards.
+          Your ultimate travel companion for discovering the world's most beautiful destinations,
+          hidden gems, and cultural experiences.
         </p>
 
         <div class="features">
           <div class="feature-card">
-            <h3>Modern UI</h3>
-            <p>Glassmorphism design with neon visual accents.</p>
+            <h3>🌍</h3>
+            <h3>Discover Tourist Spots</h3>
+            <p>Explore top attractions, landmarks, and hidden gems in countries around the world.</p>
           </div>
 
           <div class="feature-card">
-            <h3>Responsive Design</h3>
-            <p>Fully optimized for desktop and mobile devices.</p>
+            <h3>🍜</h3>
+            <h3>Local Cuisine Guide</h3>
+            <p>Find the must-try dishes and authentic food experiences in every destination.</p>
           </div>
 
           <div class="feature-card">
-            <h3>Form Validation</h3>
-            <p>Client-side validation using JavaScript.</p>
+            <h3>📅</h3>
+            <h3>Best Time to Visit</h3>
+            <p>Plan your trip with seasonal recommendations and weather insights.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>⭐</h3>
+            <h3>Travel Wishlist</h3>
+            <p>Save your favorite destinations and create your dream travel itinerary.</p>
           </div>
         </div>
       </section>
 
-      <!-- USER DASHBOARD -->
-      <section class="content dashboard">
-        <h2 class="section-title">User Dashboard</h2>
-
-        <div class="features">
-          <div class="feature-card">
-            <h3>Profile</h3>
-            <p>View and manage personal account information.</p>
-            <a href="profile.html" class="cta">Open Profile</a>
+      <!-- POPULAR DESTINATIONS PREVIEW -->
+      <section class="content destinations-preview">
+        <h2 class="section-title">🔥 Popular Destinations</h2>
+        
+        <div class="destinations-grid">
+          <div class="destination-card" onclick="window.location.href='api.html'">
+            <div class="destination-image" style="background-image: url('https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&h=300&fit=crop')"></div>
+            <div class="destination-info">
+              <h3>🇵🇭 Philippines</h3>
+              <p>White sand beaches, Chocolate Hills, Underground River</p>
+              <span class="destination-rating">⭐ 4.9 | 1,200+ spots</span>
+            </div>
           </div>
 
-          <div class="feature-card">
-            <h3>Settings</h3>
-            <p>Update preferences and configuration options.</p>
-            <a href="settings.html" class="cta">Open Settings</a>
+          <div class="destination-card" onclick="window.location.href='api.html'">
+            <div class="destination-image" style="background-image: url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=400&h=300&fit=crop')"></div>
+            <div class="destination-info">
+              <h3>🇯🇵 Japan</h3>
+              <p>Temples, cherry blossoms, Mount Fuji, bamboo forests</p>
+              <span class="destination-rating">⭐ 5.0 | 2,500+ spots</span>
+            </div>
+          </div>
+
+          <div class="destination-card" onclick="window.location.href='api.html'">
+            <div class="destination-image" style="background-image: url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400&h=300&fit=crop')"></div>
+            <div class="destination-info">
+              <h3>🇫🇷 France</h3>
+              <p>Eiffel Tower, Louvre, French Riviera, cuisine</p>
+              <span class="destination-rating">⭐ 4.9 | 3,800+ spots</span>
+            </div>
+          </div>
+
+          <div class="destination-card" onclick="window.location.href='api.html'">
+            <div class="destination-image" style="background-image: url('https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=400&h=300&fit=crop')"></div>
+            <div class="destination-info">
+              <h3>🇮🇹 Italy</h3>
+              <p>Colosseum, Venice canals, Amalfi Coast, pizza</p>
+              <span class="destination-rating">⭐ 4.9 | 3,200+ spots</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="view-all">
+          <a href="api.html" class="cta">View All Destinations →</a>
+        </div>
+      </section>
+
+      <!-- TRAVEL TIPS SECTION -->
+      <section class="content travel-tips">
+        <h2 class="section-title">💡 Travel Tips</h2>
+        
+        <div class="tips-grid">
+          <div class="tip-card">
+            <div class="tip-icon">📅</div>
+            <h3>Plan Ahead</h3>
+            <p>Research your destination's peak season and book accommodations early for the best deals.</p>
+          </div>
+          
+          <div class="tip-card">
+            <div class="tip-icon">💼</div>
+            <h3>Pack Smart</h3>
+            <p>Check weather forecasts and pack versatile clothing suitable for your destination's climate.</p>
+          </div>
+          
+          <div class="tip-card">
+            <div class="tip-icon">💰</div>
+            <h3>Local Currency</h3>
+            <p>Notify your bank before traveling and carry some local currency for small purchases.</p>
+          </div>
+          
+          <div class="tip-card">
+            <div class="tip-icon">📱</div>
+            <h3>Stay Connected</h3>
+            <p>Download offline maps and translation apps before your trip.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CALL TO ACTION -->
+      <section class="content cta-section">
+        <div class="cta-box">
+          <h2>Ready to Explore?</h2>
+          <p>Join thousands of travelers discovering amazing destinations around the world.</p>
+          <div class="cta-buttons">
+            <a href="signup.html" class="cta">Create Account</a>
+            <a href="login.html" class="secondary-btn">Sign In</a>
           </div>
         </div>
       </section>
@@ -100,7 +180,10 @@
 
     <!-- FOOTER -->
     <footer class="footer">
-      <p>© 2026 Rey Anthony Lising | IPT 101</p>
+      <p>© 2026 Travel Explorer | Discover Amazing Destinations Around the World</p>
+      <p style="margin-top: 10px; font-size: 12px;">🌍 Your journey starts here</p>
     </footer>
+
+    <script src="script.js"></script>
   </body>
 </html>
