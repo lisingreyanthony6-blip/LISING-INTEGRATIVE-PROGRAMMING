@@ -25,85 +25,6 @@ function updateSavedCount() {
     if (badge) badge.textContent = savedVehicles.length;
 }
 
-// ==================== VEHICLE IMAGE FETCHER ====================
-let currentImageInterval = null;
-let currentImageIndex = 0;
-
-function fetchVehicleImages(make, model) {
-    return new Promise((resolve) => {
-        // Using Unsplash Source API for vehicle images (free, no API key needed)
-        // We'll create multiple image URLs for the same vehicle
-        const searchTerm = `${make} ${model} car`;
-        const images = [
-            `https://source.unsplash.com/featured/400x300?${encodeURIComponent(searchTerm)}&1`,
-            `https://source.unsplash.com/featured/400x300?${encodeURIComponent(searchTerm)}&2`,
-            `https://source.unsplash.com/featured/400x300?${encodeURIComponent(searchTerm)}&3`,
-            `https://source.unsplash.com/featured/400x300?${encodeURIComponent(searchTerm)}&4`,
-            `https://source.unsplash.com/featured/400x300?${encodeURIComponent(searchTerm)}&5`
-        ];
-        resolve(images);
-    });
-}
-
-function startImageSlideshow(images, containerId) {
-    // Stop any existing slideshow
-    if (currentImageInterval) {
-        clearInterval(currentImageInterval);
-        currentImageInterval = null;
-    }
-    
-    currentImageIndex = 0;
-    const imgElement = document.getElementById(containerId);
-    
-    if (!imgElement) return;
-    
-    // Set first image
-    imgElement.src = images[0];
-    imgElement.onerror = () => {
-        imgElement.src = 'https://via.placeholder.com/400x300?text=No+Image+Available';
-    };
-    
-    // Change image every 3 seconds (10 seconds total = 3-4 images)
-    let counter = 0;
-    currentImageInterval = setInterval(() => {
-        counter++;
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-        imgElement.src = images[currentImageIndex];
-        imgElement.onerror = () => {
-            imgElement.src = 'https://via.placeholder.com/400x300?text=No+Image+Available';
-        };
-        
-        // Stop after 10 seconds (approximately 3-4 changes)
-        if (counter >= 3) {
-            clearInterval(currentImageInterval);
-            currentImageInterval = null;
-        }
-    }, 3000);
-}
-
-function stopSlideshow() {
-    if (currentImageInterval) {
-        clearInterval(currentImageInterval);
-        currentImageInterval = null;
-    }
-}
-
-// ==================== VEHICLE FUN FACTS ====================
-function getVehicleFact(make, model) {
-    const facts = {
-        'Toyota': ['Toyota was originally a textile company!', 'The Toyota Corolla is the best-selling car of all time.', 'Toyota has over 5,000 patents for hybrid technology.'],
-        'Honda': ['Honda started as a motorcycle company in 1946.', 'The Honda Civic has been in production since 1972.', 'Honda is the world\'s largest engine manufacturer.'],
-        'Ford': ['Ford introduced the assembly line in 1913.', 'The Ford Mustang sold 1 million units in its first 2 years.', 'Ford is the second-largest US automaker.'],
-        'Chevrolet': ['Chevrolet was founded by Louis Chevrolet and William Durant.', 'The Chevy Suburban is the longest-running nameplate.', 'Chevrolet sold over 100 million vehicles worldwide.'],
-        'BMW': ['BMW started as an aircraft engine company.', 'The BMW logo represents a spinning propeller.', 'BMW stands for Bayerische Motoren Werke.'],
-        'Mercedes-Benz': ['Mercedes-Benz invented the first automobile in 1886.', 'The three-pointed star represents land, sea, and air.', 'Mercedes-Benz has over 100,000 employees worldwide.'],
-        'default': ['Cars have over 30,000 parts on average.', 'The first car could only go 10 mph.', 'Modern cars have over 100 computers inside.']
-    };
-    
-    const makeFacts = facts[make] || facts['default'];
-    return makeFacts[Math.floor(Math.random() * makeFacts.length)];
-}
-
 // ==================== SAVE VEHICLE FEATURE ====================
 function saveVehicle(vehicleData) {
     let savedVehicles = JSON.parse(localStorage.getItem('savedVehicles')) || [];
@@ -150,15 +71,7 @@ function loadSavedVehicles() {
     
     container.innerHTML = savedVehicles.map((vehicle, index) => `
         <div class="vehicle-card">
-            <div class="vehicle-image-container">
-                <img id="saved-img-${index}" src="https://source.unsplash.com/featured/300x200?${vehicle.make}+${vehicle.model}+car" 
-                     alt="${vehicle.make} ${vehicle.model}" 
-                     class="vehicle-image"
-                     onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
-                <button onclick="previewVehicleImage('${vehicle.make}', '${vehicle.model}', 'saved-img-${index}')" class="preview-btn-small">
-                    <i class="fas fa-play"></i> Preview (10s)
-                </button>
-            </div>
+            <div class="vehicle-icon"><i class="fas fa-car"></i></div>
             <div class="vehicle-details">
                 <h3>${vehicle.year} ${vehicle.make} ${vehicle.model}</h3>
                 <div class="vehicle-info">
@@ -166,7 +79,6 @@ function loadSavedVehicles() {
                     <p><i class="fas fa-tag"></i> Make: ${vehicle.make}</p>
                     <p><i class="fas fa-cog"></i> Model: ${vehicle.model}</p>
                 </div>
-                <p class="vehicle-fact"><i class="fas fa-lightbulb"></i> ${getVehicleFact(vehicle.make, vehicle.model)}</p>
                 <p class="saved-date"><i class="fas fa-clock"></i> Added: ${new Date(vehicle.savedAt).toLocaleDateString()}</p>
                 <button onclick="removeSavedVehicle(${index})" class="delete-btn"><i class="fas fa-trash"></i> Remove</button>
             </div>
@@ -184,51 +96,6 @@ function removeSavedVehicle(index) {
         loadSavedVehicles();
         updateSavedCount();
     }
-}
-
-// ==================== PREVIEW VEHICLE IMAGES (10 SECONDS) ====================
-async function previewVehicleImage(make, model, imgElementId) {
-    const imgElement = document.getElementById(imgElementId);
-    if (!imgElement) return;
-    
-    showNotification(`Showing preview for ${make} ${model} for 10 seconds!`, "info");
-    
-    // Generate multiple images for slideshow
-    const searchTerm = `${make} ${model} car`;
-    const images = [
-        `https://source.unsplash.com/featured/400x300?${encodeURIComponent(searchTerm)}&1`,
-        `https://source.unsplash.com/featured/400x300?${encodeURIComponent(searchTerm)}&2`,
-        `https://source.unsplash.com/featured/400x300?${encodeURIComponent(searchTerm)}&3`,
-        `https://source.unsplash.com/featured/400x300?${encodeURIComponent(searchTerm)}&4`
-    ];
-    
-    let index = 0;
-    imgElement.src = images[0];
-    imgElement.onerror = () => {
-        imgElement.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
-    };
-    
-    // Change image every 2.5 seconds for 10 seconds (4 images)
-    const interval = setInterval(() => {
-        index++;
-        if (index < images.length) {
-            imgElement.src = images[index];
-            imgElement.onerror = () => {
-                imgElement.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
-            };
-        }
-    }, 2500);
-    
-    // Stop after 10 seconds
-    setTimeout(() => {
-        clearInterval(interval);
-        // Restore original image
-        imgElement.src = `https://source.unsplash.com/featured/300x200?${searchTerm}`;
-        imgElement.onerror = () => {
-            imgElement.src = 'https://via.placeholder.com/300x200?text=No+Image';
-        };
-        showNotification(`Preview finished!`, "info");
-    }, 10000);
 }
 
 // ==================== NHTSA vPIC API SEARCH ====================
@@ -270,30 +137,21 @@ function displayVehicleResults(vehicles, searchTerm) {
         <div class="vehicles-results">
             <div class="results-header">
                 <h2><i class="fas fa-search"></i> Results for "${searchTerm}"</h2>
-                <p>Found ${vehicles.length} vehicles • Click preview to see images for 10 seconds!</p>
+                <p>Found ${vehicles.length} vehicles</p>
             </div>
             <div class="vehicles-grid">
     `;
     
-    vehicles.slice(0, 20).forEach((vehicle, index) => {
+    vehicles.slice(0, 20).forEach((vehicle) => {
         const make = vehicle.Make_Name || searchTerm;
         const model = vehicle.Model_Name || "Unknown";
         const year = "2024";
-        const uniqueId = `img-${Date.now()}-${index}`;
         
         const isSaved = savedVehicles.some(item => item.make === make && item.model === model);
         
         html += `
             <div class="vehicle-card">
-                <div class="vehicle-image-container">
-                    <img id="${uniqueId}" src="https://source.unsplash.com/featured/300x200?${encodeURIComponent(make)}+${encodeURIComponent(model)}+car" 
-                         alt="${make} ${model}" 
-                         class="vehicle-image"
-                         onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
-                    <button onclick="previewVehicleImage('${make}', '${model}', '${uniqueId}')" class="preview-btn-small">
-                        <i class="fas fa-play"></i> Preview (10s)
-                    </button>
-                </div>
+                <div class="vehicle-icon"><i class="fas fa-car"></i></div>
                 <div class="vehicle-details">
                     <h3>${make} ${model}</h3>
                     <div class="vehicle-info">
@@ -301,7 +159,6 @@ function displayVehicleResults(vehicles, searchTerm) {
                         <p><i class="fas fa-tag"></i> Make: ${make}</p>
                         <p><i class="fas fa-cog"></i> Model: ${model}</p>
                     </div>
-                    <p class="vehicle-fact"><i class="fas fa-lightbulb"></i> ${getVehicleFact(make)}</p>
                     <button onclick='saveVehicle(${JSON.stringify({
                         make: make,
                         model: model,
