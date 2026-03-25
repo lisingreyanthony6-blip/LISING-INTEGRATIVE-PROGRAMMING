@@ -1,146 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard | LISING</title>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
-
-    <!-- Main Styles -->
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - CarFinder</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-    <!-- ===== ADMIN ACCESS RULE ===== -->
-    <script>
-        // Check if user is logged in and has admin role
-        (function() {
-            const user = JSON.parse(localStorage.getItem('currentUser'));
-            
-            // If not logged in at all
-            if (!user) {
-                alert('🔒 Please login first to access admin dashboard.');
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            // If logged in but not admin
-            if (user.role !== 'admin') {
-                alert('🔒 Access denied. Admin privileges required.');
-                window.location.href = 'profile.html';
-                return;
-            }
-            
-            // If admin, display their name
-            const userNameElement = document.getElementById('userName');
-            if (userNameElement) {
-                userNameElement.textContent = user.name;
-            }
-        })();
-    </script>
-
-    <!-- ===== HEADER / NAVBAR ===== -->
-    <header class="navbar">
-        <div class="logo">
-            <span class="subject">IPT 101</span>
-            <span class="name">Admin Panel</span>
-        </div>
-
-        <div class="nav-links">
-            <a href="index.html" class="nav-btn">Home</a>
-            <a href="profile.html" class="nav-btn">Profile</a>
-            <a href="settings.html" class="nav-btn">Settings</a>
-            <a href="admin.html" class="nav-btn active">Admin</a>
-            <a href="#" onclick="logout()" class="nav-btn highlight-btn">Logout</a>
-        </div>
+<body onload="loadAdmin()">
+    <header>
+        <div class="logo"><i class="fas fa-crown"></i> Admin Dashboard</div>
+        <nav>
+            <a href="profile.html" class="nav-btn"><i class="fas fa-user"></i> Profile</a>
+            <a href="manage-users.html" class="nav-btn"><i class="fas fa-users-cog"></i> Manage Users</a>
+            <a href="api.html" class="nav-btn"><i class="fas fa-car"></i> Vehicle Search</a>
+            <button onclick="logout()" class="nav-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </nav>
     </header>
 
-    <!-- ===== MAIN CONTENT ===== -->
-    <main>
-        <!-- HERO -->
-        <section class="hero admin-hero">
-            <div class="hero-content">
-                <h1 class="glow">
-                    ADMIN <span class="highlight">DASHBOARD</span>
-                </h1>
-                <p class="hero-subtext">Welcome back, <span id="userName">Admin</span>! Use the menu to manage system data.</p>
+    <main class="dashboard">
+        <section class="settings-card">
+            <h2><i class="fas fa-star"></i> Welcome, <span id="admin-name"></span>!</h2>
+            <div class="admin-stats">
+                <div class="stat-box"><i class="fas fa-users"></i><h3 id="total-users">0</h3><p>Total Users</p></div>
+                <div class="stat-box"><i class="fas fa-crown"></i><h3 id="total-admins">0</h3><p>Admins</p></div>
+                <div class="stat-box"><i class="fas fa-car"></i><h3 id="total-vehicles">0</h3><p>Saved Vehicles</p></div>
             </div>
-        </section>
-
-        <!-- STATS SECTION -->
-        <section class="content">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>👥 TOTAL USERS</h3>
-                    <p class="stat-number" id="userCount">3</p>
+            <div class="admin-quick-actions">
+                <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                <div class="quick-action-grid">
+                    <a href="manage-users.html" class="quick-action-card"><i class="fas fa-user-plus"></i><span>Add User</span></a>
+                    <a href="api.html" class="quick-action-card"><i class="fas fa-car"></i><span>Search Vehicles</span></a>
+                    <a href="saved-vehicles.html" class="quick-action-card"><i class="fas fa-garage"></i><span>View Garage</span></a>
                 </div>
-                <div class="stat-card">
-                    <h3>⚡ ACTIVE SESSIONS</h3>
-                    <p class="stat-number">1</p>
-                </div>
-                <div class="stat-card">
-                    <h3>🔮 SYSTEM STATUS</h3>
-                    <p class="stat-number success">ONLINE</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ADMIN MENU -->
-        <section class="content dashboard">
-            <h2 class="section-title">📋 MANAGEMENT TOOLS</h2>
-            
-            <div class="admin-menu-grid">
-                <div class="feature-card admin-card">
-                    <h3>👥 Manage Users</h3>
-                    <p>View, edit, delete, and add new users all in one place</p>
-                    <a href="manage-users.html" class="cta">Manage Users →</a>
-                </div>
-
-                <div class="feature-card admin-card">
-                    <h3>⚙️ Settings</h3>
-                    <p>Configure system preferences</p>
-                    <a href="settings.html" class="cta">Settings →</a>
-                </div>
-
-                <div class="feature-card admin-card">
-                    <h3>📊 Reports</h3>
-                    <p>View system reports and analytics</p>
-                    <a href="#" class="cta" onclick="alert('📈 Reports coming soon!')">View Reports →</a>
-                </div>
-                
-                <div class="feature-card admin-card">
-                    <h3>👤 Profile</h3>
-                    <p>View your admin profile information</p>
-                    <a href="profile.html" class="cta">Profile →</a>
-                </div>
-            </div>
-        </section>
-        
-        <!-- QUICK ACTIONS -->
-        <section class="content">
-            <h2 class="section-title">⚡ QUICK ACTIONS</h2>
-            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                <a href="manage-users.html" style="text-decoration: none;">
-                    <div class="feature-card" style="width: 200px;">
-                        <h3>➕ Quick Add</h3>
-                        <p>Add a new user instantly</p>
-                    </div>
-                </a>
-                <a href="profile.html" style="text-decoration: none;">
-                    <div class="feature-card" style="width: 200px;">
-                        <h3>👤 My Profile</h3>
-                        <p>View your account</p>
-                    </div>
-                </a>
             </div>
         </section>
     </main>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <p>© 2026 Rey Anthony Lising | Admin Dashboard</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>

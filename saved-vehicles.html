@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Garage - CarFinder</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body onload="loadSavedVehicles()">
+    <header>
+        <div class="logo"><i class="fas fa-garage"></i> My Garage</div>
+        <nav>
+            <a href="profile.html" class="nav-btn"><i class="fas fa-user"></i> Profile</a>
+            <a href="api.html" class="nav-btn"><i class="fas fa-car"></i> Search Vehicles</a>
+            <button onclick="logout()" class="nav-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </nav>
+    </header>
+
+    <main class="dashboard">
+        <section class="settings-card" style="max-width: 1200px; grid-column: span 3;">
+            <h2><i class="fas fa-heart"></i> My Saved Vehicles</h2>
+            <p class="garage-info">Your saved vehicles appear here. They stay even after you refresh!</p>
+            <div id="saved-vehicles-container" class="vehicles-grid"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="vehicle.js"></script>
+</body>
+</html>

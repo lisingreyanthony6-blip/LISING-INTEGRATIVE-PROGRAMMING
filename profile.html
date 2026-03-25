@@ -1,67 +1,42 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile | LISING</title>
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <script src="script.js"></script>
-  <body>
-    <!-- ===== HEADER ===== -->
-    <header class="navbar">
-      <div class="logo">
-        <span class="subject">IPT 101</span>
-        <span class="name">Profile</span>
-        <a href="settings.html" class="cta">Go to Settings</a>
-      </div>
-
-      <div>
-        <a href="index.html" class="nav-btn">Home</a>
-        <a href="settings.html" class="nav-btn">Settings</a>
-        <a href="login.html" class="nav-btn">Logout</a>
-      </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - CarFinder</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body onload="loadProfile()">
+    <header>
+        <div class="logo"><i class="fas fa-car"></i> CarFinder</div>
+        <nav>
+            <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Home</a>
+            <button onclick="logout()" class="nav-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </nav>
     </header>
 
-    <!-- ===== PROFILE CONTENT ===== -->
-    <section class="content dashboard-layout">
-      <!-- ===== SIDEBAR ===== -->
-      <aside class="sidebar">
-        <a href="index.html">🏠 Home</a>
-        <a href="profile.html">👤 Profile</a>
-        <a href="settings.html">⚙ Settings</a>
-        <a href="login.html">🚪 Logout</a>
-      </aside>
+    <main class="dashboard">
+        <section class="profile-card">
+            <div class="profile-header">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Car" alt="User Avatar" class="avatar" id="profile-avatar">
+                <div class="profile-title">
+                    <h2 id="profile-name"></h2>
+                    <span class="role-badge" id="profile-role-badge">👤 User</span>
+                </div>
+            </div>
+            <div class="profile-details">
+                <div class="detail-item"><i class="fas fa-envelope"></i><div><label>Email</label><p id="profile-email"></p></div></div>
+                <div class="detail-item"><i class="fas fa-map-marker-alt"></i><div><label>Address</label><p id="profile-address"></p></div></div>
+            </div>
+            <div class="profile-actions">
+                <a href="settings.html" class="btn settings-btn"><i class="fas fa-cog"></i> Settings</a>
+                <button id="adminBtn" class="btn settings-btn" style="display: none"><i class="fas fa-crown"></i> Admin Dashboard</button>
+                <a href="saved-vehicles.html" class="btn settings-btn"><i class="fas fa-garage"></i> My Garage</a>
+            </div>
+        </section>
+    </main>
 
-      <!-- ===== MAIN CONTENT ===== -->
-      <div class="dashboard-main">
-        <h2>User Profile</h2>
-
-        <div class="profile-card">
-          <img
-            src="https://i.pravatar.cc/150?img=12"
-            alt="Profile Picture"
-            class="avatar"
-          />
-
-          <h3>Rey Anthony Lising</h3>
-          <p>Email: rey.lising@example.com</p>
-          <p>Address: Davao City, Philippines</p>
-        </div>
-
-        <div class="info-card">
-          <h3>About Me</h3>
-          <p>
-            I am a student learning integrative programming, focusing on modern
-            UI design, responsive layouts, and clean navigation structures.
-          </p>
-        </div>
-      </div>
-    </section>
-  </body>
+    <script src="script.js"></script>
+</body>
 </html>

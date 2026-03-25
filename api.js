@@ -23,10 +23,10 @@
     <main class="api-container">
         <div class="api-card">
             <h2><i class="fas fa-search"></i> Search Vehicles</h2>
-            <p>Search for vehicles by make or model</p>
+            <p>Search for vehicles by make, model, or year</p>
             
             <div class="api-search">
-                <input type="text" id="vehicleInput" placeholder="Search by make (ex: Toyota, Honda, Ford)" onkeypress="if(event.key === 'Enter') searchVehicle()">
+                <input type="text" id="vehicleInput" placeholder="Search by make or model (ex: Toyota, Honda Civic, Ford)" onkeypress="if(event.key === 'Enter') searchVehicle()">
                 <button onclick="searchVehicle()" class="btn"><i class="fas fa-search"></i> Search</button>
             </div>
 
@@ -44,7 +44,7 @@
                     <i class="fas fa-car-side"></i>
                     <h3>Welcome to CarFinder!</h3>
                     <p>Search for any vehicle to get started.</p>
-                    <small>Try: Toyota, Honda, Ford, BMW</small>
+                    <small>Try: Toyota Camry, Honda Civic, Ford Mustang</small>
                 </div>
             </div>
         </div>
